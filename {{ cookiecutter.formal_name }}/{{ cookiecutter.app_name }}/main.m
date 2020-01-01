@@ -17,7 +17,6 @@ int main(int argc, char *argv[]) {
     NSString *python_path;
     wchar_t *wpython_home;
     const char* nslog_script;
-    const char* main_script;
     wchar_t** python_argv;
     PyObject *module;
     PyObject *runpy;
