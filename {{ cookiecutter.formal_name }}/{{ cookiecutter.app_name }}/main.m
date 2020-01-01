@@ -19,6 +19,11 @@ int main(int argc, char *argv[]) {
     const char* nslog_script;
     const char* main_script;
     wchar_t** python_argv;
+    PyObject *module;
+    PyObject *runpy;
+    PyObject *runmodule;
+    PyObject *runargs;
+    PyObject *result;
 
     @autoreleasepool {
 
@@ -58,20 +63,10 @@ int main(int argc, char *argv[]) {
             exit(-2);
         }
 
-        // Set the name of the main script
-        main_script = [
-            [[NSBundle mainBundle] pathForResource:@"Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app/{{ cookiecutter.module_name }}/__main__"
-                                            ofType:@"py"] cStringUsingEncoding:NSUTF8StringEncoding];
-
-        if (main_script == NULL) {
-            NSLog(@"Unable to locate {{ cookiecutter.module_name }} main module file.");
-            exit(-1);
-        }
-
         // Construct argv for the interpreter
         python_argv = PyMem_RawMalloc(sizeof(wchar_t*) * argc);
 
-        python_argv[0] = Py_DecodeLocale(main_script, NULL);
+        python_argv[0] = Py_DecodeLocale("{{ cookiecutter.module_name }}", NULL);
         for (i = 1; i < argc; i++) {
             python_argv[i] = Py_DecodeLocale(argv[i], NULL);
         }
@@ -93,34 +88,51 @@ int main(int argc, char *argv[]) {
                 if (ret != 0) {
                     NSLog(@"Unable to install Python NSLog handler; abort.");
                 } else {
-                    // Start the main.py script
-                    NSLog(@"Running '%s'...", main_script);
+                    // Start the app module
+                    NSLog(@"Running '{{ cookiecutter.module_name }}'...");
 
-                    fd = fopen(main_script, "r");
-                    if (fd == NULL) {
-                        ret = 1;
-                        NSLog(@"Unable to open '%s'; abort.", main_script);
-                    } else {
-                        ret = PyRun_SimpleFileEx(fd, main_script, 1);
-                        fclose(fd);
-                        if (ret != 0) {
-                            NSLog(@"Application quit abnormally!");
-                        } else {
-                            // In a normal iOS application, the following line is what
-                            // actually runs the application. It requires that the
-                            // Objective-C runtime environment has a class named
-                            // "PythonAppDelegate". This project doesn't define
-                            // one, because Objective-C bridging isn't something
-                            // Python does out of the box. You'll need to use
-                            // a library like Rubicon-ObjC [1], Pyobjus [2] or
-                            // PyObjC [3] if you want to run an *actual* iOS app.
-                            // [1] http://pybee.org/rubicon
-                            // [2] http://pyobjus.readthedocs.org/
-                            // [3] https://pythonhosted.org/pyobjc/
-
-                            UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
-                        }
+                    runpy = PyImport_ImportModule("runpy");
+                    if (runpy == NULL) {
+                        NSLog(@"Could not import runpy module");
+                        exit(-1);
                     }
+
+                    runmodule = PyObject_GetAttrString(runpy, "_run_module_as_main");
+                    if (runpy == NULL) {
+                        NSLog(@"Could not access runpy._run_module_as_main");
+                        exit(-1);
+                    }
+
+                    module = PyUnicode_FromWideChar(python_argv[0], wcslen(python_argv[0]));
+                    if (runpy == NULL) {
+                        NSLog(@"Could not convert module name to unicode");
+                        exit(-1);
+                    }
+
+                    runargs = Py_BuildValue("(Oi)", module, 0);
+                    if (runpy == NULL) {
+                        NSLog(@"Could not create arguments for runpy._run_module_as_main");
+                        exit(-1);
+                    }
+
+                    result = PyObject_Call(runmodule, runargs, NULL);
+                    if (result == NULL) {
+                        NSLog(@"Application quit abnormally!");
+                        PyErr_Print();
+                    }
+
+                    // In a normal iOS application, the following line is what
+                    // actually runs the application. It requires that the
+                    // Objective-C runtime environment has a class named
+                    // "PythonAppDelegate". This project doesn't define
+                    // one, because Objective-C bridging isn't something
+                    // Python does out of the box. You'll need to use
+                    // a library like Rubicon-ObjC [1], Pyobjus [2] or
+                    // PyObjC [3] if you want to run an *actual* iOS app.
+                    // [1] http://pybee.org/rubicon
+                    // [2] http://pyobjus.readthedocs.org/
+                    // [3] https://pythonhosted.org/pyobjc/
+                    UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
                 }
             }
         }
