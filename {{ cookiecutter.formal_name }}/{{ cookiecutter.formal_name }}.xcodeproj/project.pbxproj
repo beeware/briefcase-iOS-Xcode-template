@@ -40,9 +40,9 @@
 		610000000000000000100200 /* app_packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages; sourceTree = "<group>"; };
 		610000000000000000100300 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		610000000000000000100400 /* {{ cookiecutter.formal_name }}.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "{{ cookiecutter.formal_name }}.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		610000000000000000100500 /* {{ cookiecutter.name }}-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "{{ cookiecutter.name }}-Info.plist"; sourceTree = "<group>"; };
+		610000000000000000100500 /* {{ cookiecutter.app_name }}-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "{{ cookiecutter.app_name }}-Info.plist"; sourceTree = "<group>"; };
 		610000000000000000100600 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		610000000000000000100700 /* {{ cookiecutter.name }}-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "{{ cookiecutter.name }}-Prefix.pch"; sourceTree = "<group>"; };
+		610000000000000000100700 /* {{ cookiecutter.app_name }}-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "{{ cookiecutter.app_name }}-Prefix.pch"; sourceTree = "<group>"; };
 		610000000000000000100800 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				610000000000000000100000 /* Support */,
-				60796EEB19190F4100A9926B /* {{ cookiecutter.name }} */,
+				60796EEB19190F4100A9926B /* {{ cookiecutter.app_name }} */,
 				60796EE419190F4100A9926B /* Frameworks */,
 				60796EE319190F4100A9926B /* Products */,
 			);
@@ -104,7 +104,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		60796EEB19190F4100A9926B /* {{ cookiecutter.name }} */ = {
+		60796EEB19190F4100A9926B /* {{ cookiecutter.app_name }} */ = {
 			isa = PBXGroup;
 			children = (
 				610000000000000000100100 /* app */,
@@ -112,15 +112,15 @@
 				610000000000000000100800 /* Images.xcassets */,
 				60796EEC19190F4100A9926B /* Supporting Files */,
 			);
-			path = {{ cookiecutter.name }};
+			path = {{ cookiecutter.app_name }};
 			sourceTree = "<group>";
 		};
 		60796EEC19190F4100A9926B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				610000000000000000100300 /* main.m */,
-				610000000000000000100500 /* {{ cookiecutter.name }}-Info.plist */,
-				610000000000000000100700 /* {{ cookiecutter.name }}-Prefix.pch */,
+				610000000000000000100500 /* {{ cookiecutter.app_name }}-Info.plist */,
+				610000000000000000100700 /* {{ cookiecutter.app_name }}-Prefix.pch */,
 				60796EEE19190F4100A9926B /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -143,7 +143,7 @@
 			dependencies = (
 			);
 			name = "{{ cookiecutter.formal_name }}";
-			productName = {{ cookiecutter.name }};
+			productName = {{ cookiecutter.app_name }};
 			productReference = 610000000000000000100400 /* {{ cookiecutter.formal_name }}.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -199,7 +199,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Python\"\nmkdir -p \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.name }}\"\nrsync -pvtrL --exclude .hg --exclude .svn --exclude .git \"$PROJECT_DIR/Support/Python/Resources/lib\" \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Python\"\nrsync -pvtrL --exclude .hg --exclude .svn --exclude .git \"$PROJECT_DIR/{{ cookiecutter.name }}/app\" \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.name }}\"\nrsync -pvtrL --exclude .hg --exclude .svn --exclude .git \"$PROJECT_DIR/{{ cookiecutter.name }}/app_packages\" \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.name }}\"";
+			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Python\"\nmkdir -p \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}\"\nrsync -pvtrL --exclude .hg --exclude .svn --exclude .git \"$PROJECT_DIR/Support/Python/Resources/lib\" \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Python\"\nrsync -pvtrL --exclude .hg --exclude .svn --exclude .git \"$PROJECT_DIR/{{ cookiecutter.app_name }}/app\" \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}\"\nrsync -pvtrL --exclude .hg --exclude .svn --exclude .git \"$PROJECT_DIR/{{ cookiecutter.app_name }}/app_packages\" \"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -337,7 +337,7 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "{{ cookiecutter.name }}/{{ cookiecutter.name }}-Prefix.pch";
+				GCC_PREFIX_HEADER = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -346,7 +346,7 @@
 					"\"$(PROJECT_DIR)/Support/XZ/Headers\"",
 					"\"$(PROJECT_DIR)/Support/Python/Headers\"",
 				);
-				INFOPLIST_FILE = "{{ cookiecutter.name }}/{{ cookiecutter.name }}-Info.plist";
+				INFOPLIST_FILE = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Support/Python",
@@ -354,7 +354,7 @@
 					"$(PROJECT_DIR)/Support/XZ",
 					"$(PROJECT_DIR)/Support/BZip2",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.name }}";
+				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
@@ -371,7 +371,7 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "{{ cookiecutter.name }}/{{ cookiecutter.name }}-Prefix.pch";
+				GCC_PREFIX_HEADER = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -380,7 +380,7 @@
 					"\"$(PROJECT_DIR)/Support/XZ/Headers\"",
 					"\"$(PROJECT_DIR)/Support/Python/Headers\"",
 				);
-				INFOPLIST_FILE = "{{ cookiecutter.name }}/{{ cookiecutter.name }}-Info.plist";
+				INFOPLIST_FILE = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Support/BZip2",
@@ -388,7 +388,7 @@
 					"$(PROJECT_DIR)/Support/XZ",
 					"$(PROJECT_DIR)/Support/Python",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.name }}";
+				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
