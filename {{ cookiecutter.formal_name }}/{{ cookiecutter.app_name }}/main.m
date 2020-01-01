@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         Py_SetPythonHome(wpython_home);
 
         // Set the PYTHONPATH
-        python_path = [NSString stringWithFormat:@"PYTHONPATH=%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.name }}/app:%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.name }}/app_packages", resourcePath, resourcePath, nil];
+        python_path = [NSString stringWithFormat:@"PYTHONPATH=%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app:%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app_packages", resourcePath, resourcePath, nil];
         NSLog(@"PYTHONPATH is: %@", python_path);
         putenv((char *)[python_path UTF8String]);
 
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
 
         // Set the name of the python NSLog bootstrap script
         nslog_script = [
-            [[NSBundle mainBundle] pathForResource:@"Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.name }}/app_packages/nslog"
+            [[NSBundle mainBundle] pathForResource:@"Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app_packages/nslog"
                                             ofType:@"py"] cStringUsingEncoding:NSUTF8StringEncoding];
 
         if (nslog_script == NULL) {
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
         // Set the name of the main script
         main_script = [
-            [[NSBundle mainBundle] pathForResource:@"Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.name }}/app/{{ cookiecutter.module_name }}/__main__"
+            [[NSBundle mainBundle] pathForResource:@"Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app/{{ cookiecutter.module_name }}/__main__"
                                             ofType:@"py"] cStringUsingEncoding:NSUTF8StringEncoding];
 
         if (main_script == NULL) {
