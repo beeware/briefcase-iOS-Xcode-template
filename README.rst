@@ -94,7 +94,7 @@ third-party library), you should install the library code into the
 directory on a desktop Python install.
 
 .. _cookiecutter: https://github.com/cookiecutter/cookiecutter
-.. _Download the Python Apple support package for iOS: https://briefcase-support.s3-us-west-2.amazonaws.com/python/3.6/iOS/Python-3.6-iOS-support.b8.tar.gz
+.. _Download the Python Apple support package for iOS: https://briefcase-support.org/python?platform=iOS&version=3.6
 .. _Python-Apple-support: https://github.com/beeware/Python-Apple-support
 .. _Rubicon: https://github.com/beeware/rubicon-objc
 .. _Toga: https://beeware.org/project/projects/libraries/toga
