@@ -154,7 +154,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1110;
-				ORGANIZATIONNAME = "{{ cookiecutter.organization_name }}";
+				ORGANIZATIONNAME = "{{ cookiecutter.author }}";
 			};
 			buildConfigurationList = 60796EDD19190F4100A9926B /* Build configuration list for PBXProject "{{ cookiecutter.formal_name }}" */;
 			compatibilityVersion = "Xcode 9.3";
