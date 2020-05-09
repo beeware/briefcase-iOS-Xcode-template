@@ -357,7 +357,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "x86_64 arm64 arm64e";
+				VALID_ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -392,7 +392,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "x86_64 arm64 arm64e";
+				VALID_ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
