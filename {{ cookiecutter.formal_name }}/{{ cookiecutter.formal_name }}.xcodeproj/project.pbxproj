@@ -21,7 +21,7 @@
 		600000000000000000100000 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60796EEE19190F4100A9926B /* InfoPlist.strings */; };
 		600000000000000000100100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100300 /* main.m */; };
 		600000000000000000100200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100800 /* Images.xcassets */; };
-		C6B4E11924777B6D005B7DBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B4E11724777B6D005B7DBE /* LaunchScreen.storyboard */; };
+		600000000000000000100300 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100900 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,7 +112,7 @@
 				610000000000000000100100 /* app */,
 				610000000000000000100200 /* app_packages */,
 				610000000000000000100800 /* Images.xcassets */,
-				C6B4E11724777B6D005B7DBE /* LaunchScreen.storyboard */,
+				610000000000000000100900 /* LaunchScreen.storyboard */,
 				60796EEC19190F4100A9926B /* Supporting Files */,
 			);
 			path = {{ cookiecutter.app_name }};
@@ -184,7 +184,7 @@
 			files = (
 				600000000000000000100000 /* InfoPlist.strings in Resources */,
 				600000000000000000100200 /* Images.xcassets in Resources */,
-				C6B4E11924777B6D005B7DBE /* LaunchScreen.storyboard in Resources */,
+				600000000000000000100300 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,7 +227,7 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		C6B4E11724777B6D005B7DBE /* LaunchScreen.storyboard */ = {
+		610000000000000000100900 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C6B4E11824777B6D005B7DBE /* Base */,
