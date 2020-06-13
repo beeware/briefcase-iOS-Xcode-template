@@ -4,5 +4,13 @@
     "formal_name": "App Name",
     "author": "Example Corporation",
     "bundle": "com.example",
-    "version": "1.0"
+    "splash_background_color": "#FFFFFF",
+    "version": "1.0",
+    "_copy_without_render": [
+        ".gitignore",
+        "*.png"
+    ],
+    "_extensions": [
+        "briefcase.integrations.cookiecutter.RGBExtension"
+    ]
 }
