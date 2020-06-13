@@ -6,6 +6,7 @@
     "bundle": "com.example",
     "splash_background_color": "#FFFFFF",
     "version": "1.0",
+    "build": "1",
     "_copy_without_render": [
         ".gitignore",
         "*.png"
