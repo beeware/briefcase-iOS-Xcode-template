@@ -72,9 +72,6 @@ int main(int argc, char *argv[]) {
 
         PySys_SetArgv(argc, python_argv);
 
-        // If other modules are using threads, we need to initialize them.
-        PyEval_InitThreads();
-
         @try {
             NSLog(@"Installing Python NSLog handler...");
             FILE* fd = fopen(nslog_script, "r");
