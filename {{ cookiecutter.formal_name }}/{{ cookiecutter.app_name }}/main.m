@@ -59,7 +59,6 @@ int main(int argc, char *argv[]) {
 
         if (nslog_script == NULL) {
             NSLog(@"Unable to locate NSLog bootstrap script.");
-            exit(-2);
         }
 
         // Construct argv for the interpreter
@@ -72,22 +71,24 @@ int main(int argc, char *argv[]) {
 
         PySys_SetArgv(argc, python_argv);
 
-        // If other modules are using threads, we need to initialize them.
-        PyEval_InitThreads();
-
         @try {
-            NSLog(@"Installing Python NSLog handler...");
-            FILE* fd = fopen(nslog_script, "r");
-            if (fd == NULL) {
-                NSLog(@"Unable to open nslog.py; abort.");
-                exit(-1);
-            }
+            if (nslog_script == NULL) {
+                NSLog(@"No Python NSLog handler found. stdout/stderr will not be captured.");
+                NSLog(@"To capture stdout/stderr, add 'std-nslog' to your app dependencies.");
+            } else {
+                NSLog(@"Installing Python NSLog handler...");
+                FILE* fd = fopen(nslog_script, "r");
+                if (fd == NULL) {
+                    NSLog(@"Unable to open nslog.py; abort.");
+                    exit(-1);
+                }
 
-            ret = PyRun_SimpleFileEx(fd, nslog_script, 1);
-            fclose(fd);
-            if (ret != 0) {
-                NSLog(@"Unable to install Python NSLog handler; abort.");
-                exit(ret);
+                ret = PyRun_SimpleFileEx(fd, nslog_script, 1);
+                fclose(fd);
+                if (ret != 0) {
+                    NSLog(@"Unable to install Python NSLog handler; abort.");
+                    exit(ret);
+                }
             }
 
             // Start the app module

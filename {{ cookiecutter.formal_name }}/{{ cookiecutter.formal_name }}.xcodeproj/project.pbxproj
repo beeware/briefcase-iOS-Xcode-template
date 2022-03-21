@@ -160,6 +160,7 @@
 		60796EDA19190F4100A9926B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = "{{ cookiecutter.author }}";
 			};
