@@ -9,12 +9,16 @@
 #include <dlfcn.h>
 
 
+void crash_dialog(NSString *);
+NSString * format_traceback(PyObject *type, PyObject *value, PyObject *traceback);
+
 int main(int argc, char *argv[]) {
     int ret = 0;
     unsigned int i;
     NSString *tmp_path;
     NSString *python_home;
     NSString *python_path;
+    NSString *traceback_str;
     wchar_t *wpython_home;
     const char* nslog_script;
     wchar_t** python_argv;
@@ -23,6 +27,10 @@ int main(int argc, char *argv[]) {
     PyObject *runmodule;
     PyObject *runargs;
     PyObject *result;
+    PyObject *exc_type;
+    PyObject *exc_value;
+    PyObject *exc_traceback;
+    PyObject *systemExit_code;
 
     @autoreleasepool {
 
@@ -119,26 +127,64 @@ int main(int argc, char *argv[]) {
 
             result = PyObject_Call(runmodule, runargs, NULL);
             if (result == NULL) {
-                NSLog(@"Application quit abnormally!");
-                PyErr_Print();
-                exit(-5);
-            }
+                // Retrieve the current error state of the interpreter.
+                PyErr_Fetch(&exc_type, &exc_value, &exc_traceback);
+                PyErr_NormalizeException(&exc_type, &exc_value, &exc_traceback);
 
-            // In a normal iOS application, the following line is what
-            // actually runs the application. It requires that the
-            // Objective-C runtime environment has a class named
-            // "PythonAppDelegate". This project doesn't define
-            // one, because Objective-C bridging isn't something
-            // Python does out of the box. You'll need to use
-            // a library like Rubicon-ObjC [1], Pyobjus [2] or
-            // PyObjC [3] if you want to run an *actual* iOS app.
-            // [1] http://beeware.org/rubicon
-            // [2] http://pyobjus.readthedocs.org/
-            // [3] https://pythonhosted.org/pyobjc/
-            UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
+                if (exc_traceback == NULL) {
+                    NSLog(@"Could not retrieve traceback");
+                    crash_dialog(@"Could not retrieve traceback");
+                    exit(-5);
+                }
+
+                if (PyErr_GivenExceptionMatches(exc_value, PyExc_SystemExit)) {
+                    systemExit_code = PyObject_GetAttrString(exc_value, "code");
+                    if (systemExit_code == NULL) {
+                        NSLog(@"Could not determine exit code");
+                        ret = -10;
+                    }
+                    else {
+                        ret = (int) PyLong_AsLong(systemExit_code);
+                    }
+                } else {
+                    ret = -6;
+                }
+
+                if (ret != 0) {
+                    NSLog(@"Application quit abnormally (Exit code %d)!", ret);
+
+                    traceback_str = format_traceback(exc_type, exc_value, exc_traceback);
+
+                    // Restore the error state of the interpreter.
+                    PyErr_Restore(exc_type, exc_value, exc_traceback);
+
+                    // Print exception to stderr.
+                    // In case of SystemExit, this will call exit()
+                    PyErr_Print();
+
+                    // Display stack trace in the crash dialog.
+                    crash_dialog(traceback_str);
+                    exit(ret);
+                }
+            } else {
+                // In a normal iOS application, the following line is what
+                // actually runs the application. It requires that the
+                // Objective-C runtime environment has a class named
+                // "PythonAppDelegate". This project doesn't define
+                // one, because Objective-C bridging isn't something
+                // Python does out of the box. You'll need to use
+                // a library like Rubicon-ObjC [1], Pyobjus [2] or
+                // PyObjC [3] if you want to run an *actual* iOS app.
+                // [1] http://beeware.org/rubicon
+                // [2] http://pyobjus.readthedocs.org/
+                // [3] https://pythonhosted.org/pyobjc/
+                UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
+            }
         }
         @catch (NSException *exception) {
             NSLog(@"Python runtime error: %@", [exception reason]);
+            crash_dialog([NSString stringWithFormat:@"Python runtime error: %@", [exception reason]]);
+            ret = -7;
         }
         @finally {
             Py_Finalize();
@@ -151,9 +197,85 @@ int main(int argc, char *argv[]) {
             }
             PyMem_RawFree(python_argv);
         }
-        NSLog(@"Leaving...");
     }
 
     exit(ret);
     return ret;
+}
+
+/**
+ * Construct and display a modal dialog to the user that contains
+ * details of an error during application execution (usually a traceback).
+ */
+void crash_dialog(NSString *details) {
+    NSLog(@"Application has crashed!");
+    NSLog(@"========================\n%@", details);
+
+    // TODO - acutally make this a dialog
+    NSString *full_message = [NSString stringWithFormat:@"An unexpected error occurred.\n%@", details];
+    // Create a stack trace dialog
+    [UIAlertController alertControllerWithTitle:@"Application has crashed"
+                                        message:full_message
+                                 preferredStyle:UIAlertControllerStyleAlert];
+
+}
+
+/**
+ * Convert a Python traceback object into a user-suitable string, stripping off
+ * stack context that comes from this stub binary.
+ *
+ * If any error occurs processing the traceback, the error message returned
+ * will describe the mode of failure.
+ */
+NSString *format_traceback(PyObject *type, PyObject *value, PyObject *traceback) {
+    NSRegularExpression *regex;
+    NSString *traceback_str;
+    PyObject *traceback_list;
+    PyObject *traceback_module;
+    PyObject *format_exception;
+    PyObject *traceback_unicode;
+    PyObject *inner_traceback;
+
+    // Drop the top two stack frames; these are internal
+    // wrapper logic, and not in the control of the user.
+    for (int i = 0; i < 2; i++) {
+        inner_traceback = PyObject_GetAttrString(traceback, "tb_next");
+        if (inner_traceback != NULL) {
+            traceback = inner_traceback;
+        }
+    }
+
+    // Format the traceback.
+    traceback_module = PyImport_ImportModule("traceback");
+    if (traceback_module == NULL) {
+        NSLog(@"Could not import traceback");
+        return @"Could not import traceback";
+    }
+
+    format_exception = PyObject_GetAttrString(traceback_module, "format_exception");
+    if (format_exception && PyCallable_Check(format_exception)) {
+        traceback_list = PyObject_CallFunctionObjArgs(format_exception, type, value, traceback, NULL);
+    } else {
+        NSLog(@"Could not find 'format_exception' in 'traceback' module");
+        return @"Could not find 'format_exception' in 'traceback' module";
+    }
+    if (traceback_list == NULL) {
+        NSLog(@"Could not format traceback");
+        return @"Could not format traceback";
+    }
+
+    traceback_unicode = PyUnicode_Join(PyUnicode_FromString(""), traceback_list);
+    traceback_str = [NSString stringWithUTF8String:PyUnicode_AsUTF8(PyObject_Str(traceback_unicode))];
+
+    // Take the opportunity to clean up the source path,
+    // so paths only refer to the "app local" path.
+    regex = [NSRegularExpression regularExpressionWithPattern:@"^  File \"/.*/(.*?).app/Library"
+                                                      options:NSRegularExpressionAnchorsMatchLines
+                                                        error:nil];
+    traceback_str = [regex stringByReplacingMatchesInString:traceback_str
+                                                    options:0
+                                                      range:NSMakeRange(0, [traceback_str length])
+                                               withTemplate:@"  File \"$1.app/Library"];
+
+    return traceback_str;
 }
