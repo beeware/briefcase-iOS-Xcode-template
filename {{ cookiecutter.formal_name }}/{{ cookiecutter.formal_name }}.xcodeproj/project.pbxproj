@@ -3,41 +3,41 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		600000000000000000000100 /* libbzip2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000100 /* libbzip2.a */; };
 		600000000000000000000200 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000200 /* libsqlite3.tbd */; };
-		600000000000000000000300 /* libxz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000300 /* libxz.a */; };
 		600000000000000000000400 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000400 /* libz.tbd */; };
-		600000000000000000000500 /* libOpenSSL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000500 /* libOpenSSL.a */; };
-		600000000000000000000600 /* libPython.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000600 /* libPython.a */; };
 		600000000000000000000700 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000700 /* CoreFoundation.framework */; };
 		600000000000000000000800 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000800 /* CoreGraphics.framework */; };
 		600000000000000000000900 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000900 /* Foundation.framework */; };
 		600000000000000000000A00 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000A00 /* UIKit.framework */; };
 		600000000000000000000B00 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000B00 /* WebKit.framework */; };
-		600000000000000000000C00 /* libFFI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000C00 /* libFFI.a */; };
 		600000000000000000100000 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60796EEE19190F4100A9926B /* InfoPlist.strings */; };
 		600000000000000000100100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100300 /* main.m */; };
 		600000000000000000100200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100800 /* Images.xcassets */; };
 		600000000000000000100300 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100900 /* Launch Screen.storyboard */; };
+		6011C25E282B7EA300B4605F /* Python.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6011C259282B7EA200B4605F /* Python.xcframework */; };
+		6011C260282B7EA300B4605F /* OpenSSL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6011C25A282B7EA200B4605F /* OpenSSL.xcframework */; };
+		6011C262282B7EA300B4605F /* BZip2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6011C25B282B7EA200B4605F /* BZip2.xcframework */; };
+		6011C264282B7EA300B4605F /* libFFI.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6011C25C282B7EA200B4605F /* libFFI.xcframework */; };
+		6011C266282B7EA300B4605F /* XZ.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6011C25D282B7EA200B4605F /* XZ.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		610000000000000000000100 /* libbzip2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbzip2.a; path = Support/BZip2/libbzip2.a; sourceTree = "<group>"; };
+		6011C259282B7EA200B4605F /* Python.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Python.xcframework; path = Support/Python.xcframework; sourceTree = "<group>"; };
+		6011C25A282B7EA200B4605F /* OpenSSL.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = OpenSSL.xcframework; path = Support/OpenSSL.xcframework; sourceTree = "<group>"; };
+		6011C25B282B7EA200B4605F /* BZip2.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BZip2.xcframework; path = Support/BZip2.xcframework; sourceTree = "<group>"; };
+		6011C25C282B7EA200B4605F /* libFFI.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libFFI.xcframework; path = Support/libFFI.xcframework; sourceTree = "<group>"; };
+		6011C25D282B7EA200B4605F /* XZ.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = XZ.xcframework; path = Support/XZ.xcframework; sourceTree = "<group>"; };
 		610000000000000000000200 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		610000000000000000000300 /* libxz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxz.a; path = Support/XZ/libxz.a; sourceTree = "<group>"; };
 		610000000000000000000400 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		610000000000000000000500 /* libOpenSSL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOpenSSL.a; path = Support/OpenSSL/libOpenSSL.a; sourceTree = "<group>"; };
-		610000000000000000000600 /* libPython.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPython.a; path = Support/Python/libPython.a; sourceTree = "<group>"; };
 		610000000000000000000700 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		610000000000000000000800 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		610000000000000000000900 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		610000000000000000000A00 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		610000000000000000000B00 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		610000000000000000000C00 /* libFFI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFFI.a; path = Support/libFFI/libFFI.a; sourceTree = "<group>"; };
 		610000000000000000100000 /* Support */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Support; sourceTree = "<group>"; };
 		610000000000000000100100 /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
 		610000000000000000100200 /* app_packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages; sourceTree = "<group>"; };
@@ -55,18 +55,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				600000000000000000000100 /* libbzip2.a in Frameworks */,
 				600000000000000000000200 /* libsqlite3.tbd in Frameworks */,
-				600000000000000000000300 /* libxz.a in Frameworks */,
+				6011C264282B7EA300B4605F /* libFFI.xcframework in Frameworks */,
 				600000000000000000000400 /* libz.tbd in Frameworks */,
-				600000000000000000000500 /* libOpenSSL.a in Frameworks */,
-				600000000000000000000600 /* libPython.a in Frameworks */,
 				600000000000000000000700 /* CoreFoundation.framework in Frameworks */,
-				600000000000000000000C00 /* libFFI.a in Frameworks */,
+				6011C260282B7EA300B4605F /* OpenSSL.xcframework in Frameworks */,
+				6011C25E282B7EA300B4605F /* Python.xcframework in Frameworks */,
+				6011C262282B7EA300B4605F /* BZip2.xcframework in Frameworks */,
 				600000000000000000000800 /* CoreGraphics.framework in Frameworks */,
 				600000000000000000000900 /* Foundation.framework in Frameworks */,
 				600000000000000000000A00 /* UIKit.framework in Frameworks */,
 				600000000000000000000B00 /* WebKit.framework in Frameworks */,
+				6011C266282B7EA300B4605F /* XZ.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,18 +94,18 @@
 		60796EE419190F4100A9926B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				610000000000000000000C00 /* libFFI.a */,
-				610000000000000000000100 /* libbzip2.a */,
-				610000000000000000000200 /* libsqlite3.tbd */,
-				610000000000000000000300 /* libxz.a */,
-				610000000000000000000400 /* libz.tbd */,
-				610000000000000000000500 /* libOpenSSL.a */,
-				610000000000000000000600 /* libPython.a */,
+				6011C25B282B7EA200B4605F /* BZip2.xcframework */,
 				610000000000000000000700 /* CoreFoundation.framework */,
 				610000000000000000000800 /* CoreGraphics.framework */,
 				610000000000000000000900 /* Foundation.framework */,
+				6011C25C282B7EA200B4605F /* libFFI.xcframework */,
+				610000000000000000000200 /* libsqlite3.tbd */,
+				610000000000000000000400 /* libz.tbd */,
+				6011C25A282B7EA200B4605F /* OpenSSL.xcframework */,
+				6011C259282B7EA200B4605F /* Python.xcframework */,
 				610000000000000000000A00 /* UIKit.framework */,
 				610000000000000000000B00 /* WebKit.framework */,
+				6011C25D282B7EA200B4605F /* XZ.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -160,12 +160,12 @@
 		60796EDA19190F4100A9926B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "{{ cookiecutter.author }}";
+				BuildIndependentTargetsInParallel = YES;
 			};
 			buildConfigurationList = 60796EDD19190F4100A9926B /* Build configuration list for PBXProject "{{ cookiecutter.formal_name }}" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -258,6 +258,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -282,7 +283,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -312,6 +313,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -329,7 +331,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -340,34 +342,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"\"$(PROJECT_DIR)/Support/BZip2/Headers\"",
-					"\"$(PROJECT_DIR)/Support/OpenSSL/Headers\"",
-					"\"$(PROJECT_DIR)/Support/XZ/Headers\"",
-					"\"$(PROJECT_DIR)/Support/Python/Headers\"",
-				);
 				INFOPLIST_FILE = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = (
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Support/Python",
-					"$(PROJECT_DIR)/Support/OpenSSL",
-					"$(PROJECT_DIR)/Support/XZ",
-					"$(PROJECT_DIR)/Support/BZip2",
-					"$(PROJECT_DIR)/Support/libFFI",
+					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -377,33 +361,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"\"$(PROJECT_DIR)/Support/BZip2/Headers\"",
-					"\"$(PROJECT_DIR)/Support/OpenSSL/Headers\"",
-					"\"$(PROJECT_DIR)/Support/XZ/Headers\"",
-					"\"$(PROJECT_DIR)/Support/Python/Headers\"",
-				);
 				INFOPLIST_FILE = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = (
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Support/BZip2",
-					"$(PROJECT_DIR)/Support/OpenSSL",
-					"$(PROJECT_DIR)/Support/XZ",
-					"$(PROJECT_DIR)/Support/Python",
-					"$(PROJECT_DIR)/Support/libFFI",
+					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
