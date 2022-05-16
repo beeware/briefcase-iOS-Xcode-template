@@ -14,14 +14,16 @@ NSString * format_traceback(PyObject *type, PyObject *value, PyObject *traceback
 
 int main(int argc, char *argv[]) {
     int ret = 0;
-    unsigned int i;
-    NSString *tmp_path;
+    PyStatus status;
+    PyConfig config;
+    // NSString *tmp_path;
     NSString *python_home;
     NSString *python_path;
     NSString *traceback_str;
     wchar_t *wpython_home;
+    wchar_t *wpython_path;
+    wchar_t *wmodule_name;
     const char* nslog_script;
-    wchar_t** python_argv;
     PyObject *module;
     PyObject *runpy;
     PyObject *runmodule;
@@ -33,53 +35,63 @@ int main(int argc, char *argv[]) {
     PyObject *systemExit_code;
 
     @autoreleasepool {
-
         NSString * resourcePath = [[NSBundle mainBundle] resourcePath];
 
-        // Special environment to prefer .pyo; also, don't write bytecode
-        // because the process will not have write permissions on the device.
-        putenv("PYTHONOPTIMIZE=1");
-        putenv("PYTHONDONTWRITEBYTECODE=1");
-        putenv("PYTHONUNBUFFERED=1");
+        // Generate an isolated Python configuration.
+        NSLog(@"Configuring isolated Python...");
+        PyConfig_InitIsolatedConfig(&config);
+
+        // Configure the Python interpreter:
+        // Run at optimization level 1
+        // (remove assertions, set __debug__ to False)
+        config.optimization_level = 1;
+        // Don't buffer stdio. We want output to appears in the log immediately
+        config.buffered_stdio = 0;
+        // Don't write bytecode; we can't modify the app bundle
+        // after it has been signed.
+        config.write_bytecode = 0;
 
         // Set the home for the Python interpreter
         python_home = [NSString stringWithFormat:@"%@/Library/Python", resourcePath, nil];
-        NSLog(@"PythonHome is: %@", python_home);
+        NSLog(@"PythonHome: %@", python_home);
         wpython_home = Py_DecodeLocale([python_home UTF8String], NULL);
-        Py_SetPythonHome(wpython_home);
+        config.home = wpython_home;
 
         // Set the PYTHONPATH
-        python_path = [NSString stringWithFormat:@"PYTHONPATH=%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app:%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app_packages", resourcePath, resourcePath, nil];
-        NSLog(@"PYTHONPATH is: %@", python_path);
-        putenv((char *)[python_path UTF8String]);
+        python_path = [NSString stringWithFormat:@"%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app:%@/Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app_packages", resourcePath, resourcePath, nil];
+        NSLog(@"PYTHONPATH: %@", python_path);
+        wpython_path = Py_DecodeLocale([python_path UTF8String], NULL);
+        config.pythonpath_env = wpython_path;
 
-        // iOS provides a specific directory for temp files.
-        tmp_path = [NSString stringWithFormat:@"TMP=%@/tmp", resourcePath, nil];
-        putenv((char *)[tmp_path UTF8String]);
+        // Set the app module name
+        wmodule_name = Py_DecodeLocale("{{ cookiecutter.module_name }}", NULL);
+        config.run_module = wmodule_name;
+
+        NSLog(@"Configure argc/argv...");
+        status = PyConfig_SetBytesArgv(&config, argc, argv);
+        if (PyStatus_Exception(status)) {
+            PyConfig_Clear(&config);
+            if (PyStatus_IsExit(status)) {
+                return status.exitcode;
+            }
+            Py_ExitStatusException(status);
+        }
 
         NSLog(@"Initializing Python runtime...");
-        Py_Initialize();
-
-        // Set the name of the python NSLog bootstrap script
-        nslog_script = [
-            [[NSBundle mainBundle] pathForResource:@"Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app_packages/nslog"
-                                            ofType:@"py"] cStringUsingEncoding:NSUTF8StringEncoding];
-
-        if (nslog_script == NULL) {
-            NSLog(@"Unable to locate NSLog bootstrap script.");
+        status = Py_InitializeFromConfig(&config);
+        if (PyStatus_Exception(status)) {
+            PyConfig_Clear(&config);
+            if (PyStatus_IsExit(status)) {
+                return status.exitcode;
+            }
+            Py_ExitStatusException(status);
         }
-
-        // Construct argv for the interpreter
-        python_argv = PyMem_RawMalloc(sizeof(wchar_t*) * argc);
-
-        python_argv[0] = Py_DecodeLocale("{{ cookiecutter.module_name }}", NULL);
-        for (i = 1; i < argc; i++) {
-            python_argv[i] = Py_DecodeLocale(argv[i], NULL);
-        }
-
-        PySys_SetArgv(argc, python_argv);
 
         @try {
+            // Set the name of the python NSLog bootstrap script
+            nslog_script = [
+                [[NSBundle mainBundle] pathForResource:@"Library/Application Support/{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}/app_packages/nslog"
+                                                ofType:@"py"] cStringUsingEncoding:NSUTF8StringEncoding];
             if (nslog_script == NULL) {
                 NSLog(@"No Python NSLog handler found. stdout/stderr will not be captured.");
                 NSLog(@"To capture stdout/stderr, add 'std-nslog' to your app dependencies.");
@@ -99,8 +111,14 @@ int main(int argc, char *argv[]) {
                 }
             }
 
-            // Start the app module
-            NSLog(@"Running '{{ cookiecutter.module_name }}'...");
+            // Start the app module.
+            //
+            // From here to Py_ObjectCall(runmodule...) is effectively
+            // a copy of Py_RunMain() (and, more specifically, the
+            // pymain_run_module() method); we need to re-implement it
+            // because we need to be able to inspect the error state of
+            // the interpreter, not just the return code of the module.
+            NSLog(@"Running app module: {{ cookiecutter.module_name }}");
             runpy = PyImport_ImportModule("runpy");
             if (runpy == NULL) {
                 NSLog(@"Could not import runpy module");
@@ -113,7 +131,7 @@ int main(int argc, char *argv[]) {
                 exit(-3);
             }
 
-            module = PyUnicode_FromWideChar(python_argv[0], wcslen(python_argv[0]));
+            module = PyUnicode_FromWideChar(wmodule_name, wcslen(wmodule_name));
             if (module == NULL) {
                 NSLog(@"Could not convert module name to unicode");
                 exit(-3);
@@ -126,6 +144,7 @@ int main(int argc, char *argv[]) {
             }
 
             result = PyObject_Call(runmodule, runargs, NULL);
+
             if (result == NULL) {
                 // Retrieve the current error state of the interpreter.
                 PyErr_Fetch(&exc_type, &exc_value, &exc_traceback);
@@ -191,12 +210,8 @@ int main(int argc, char *argv[]) {
         }
 
         PyMem_RawFree(wpython_home);
-        if (python_argv) {
-            for (i = 0; i < argc; i++) {
-                PyMem_RawFree(python_argv[i]);
-            }
-            PyMem_RawFree(python_argv);
-        }
+        PyMem_RawFree(wpython_path);
+        PyMem_RawFree(wmodule_name);
     }
 
     exit(ret);
