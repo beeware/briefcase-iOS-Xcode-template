@@ -18,7 +18,6 @@
 		600000000000000000000900 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000900 /* Foundation.framework */; };
 		600000000000000000000A00 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000A00 /* UIKit.framework */; };
 		600000000000000000000B00 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000B00 /* WebKit.framework */; };
-		600000000000000000000C00 /* libFFI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000C00 /* libFFI.a */; };
 		600000000000000000100000 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60796EEE19190F4100A9926B /* InfoPlist.strings */; };
 		600000000000000000100100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100300 /* main.m */; };
 		600000000000000000100200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100800 /* Images.xcassets */; };
@@ -37,7 +36,6 @@
 		610000000000000000000900 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		610000000000000000000A00 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		610000000000000000000B00 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		610000000000000000000C00 /* libFFI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFFI.a; path = Support/libFFI/libFFI.a; sourceTree = "<group>"; };
 		610000000000000000100000 /* Support */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Support; sourceTree = "<group>"; };
 		610000000000000000100100 /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
 		610000000000000000100200 /* app_packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages; sourceTree = "<group>"; };
@@ -62,7 +60,6 @@
 				600000000000000000000500 /* libOpenSSL.a in Frameworks */,
 				600000000000000000000600 /* libPython.a in Frameworks */,
 				600000000000000000000700 /* CoreFoundation.framework in Frameworks */,
-				600000000000000000000C00 /* libFFI.a in Frameworks */,
 				600000000000000000000800 /* CoreGraphics.framework in Frameworks */,
 				600000000000000000000900 /* Foundation.framework in Frameworks */,
 				600000000000000000000A00 /* UIKit.framework in Frameworks */,
@@ -94,7 +91,6 @@
 		60796EE419190F4100A9926B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				610000000000000000000C00 /* libFFI.a */,
 				610000000000000000000100 /* libbzip2.a */,
 				610000000000000000000200 /* libsqlite3.tbd */,
 				610000000000000000000300 /* libxz.a */,
@@ -362,7 +358,6 @@
 					"$(PROJECT_DIR)/Support/OpenSSL",
 					"$(PROJECT_DIR)/Support/XZ",
 					"$(PROJECT_DIR)/Support/BZip2",
-					"$(PROJECT_DIR)/Support/libFFI",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -399,7 +394,6 @@
 					"$(PROJECT_DIR)/Support/OpenSSL",
 					"$(PROJECT_DIR)/Support/XZ",
 					"$(PROJECT_DIR)/Support/Python",
-					"$(PROJECT_DIR)/Support/libFFI",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name }}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
