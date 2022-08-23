@@ -329,6 +329,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Prefix.pch";
 				INFOPLIST_FILE = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Info.plist";
@@ -347,6 +348,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.app_name }}/{{ cookiecutter.app_name }}-Prefix.pch";
