@@ -122,6 +122,7 @@
 				60796EDE19190F4100A9926B /* Sources */,
 				60796EDF19190F4100A9926B /* Frameworks */,
 				60796EE019190F4100A9926B /* Resources */,
+				609384A628B5B958005B2A5D /* Purge Python Binary Modules for Non-Target Platforms */,
 				609384A528B45C86005B2A5D /* Sign Python Binary Modules */,
 			);
 			buildRules = (
@@ -196,6 +197,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\necho \"Signed as $EXPANDED_CODE_SIGN_IDENTITY_NAME ($EXPANDED_CODE_SIGN_IDENTITY)\"\nfor binmodule in $( find \"$CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload\" -name \"*.so\" ); do\n    /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der $binmodule \ndone\nfor binmodule in $( find \"$CODESIGNING_FOLDER_PATH/app\" -name \"*.so\" ); do\n    /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der $binmodule \ndone\nfor binmodule in $( find \"$CODESIGNING_FOLDER_PATH/app_packages\" -name \"*.so\" ); do\n    /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der $binmodule \ndone\n";
+			showEnvVarsInLog = 0;
+		};
+		609384A628B5B958005B2A5D /* Purge Python Binary Modules for Non-Target Platforms */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Purge Python Binary Modules for Non-Target Platforms";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    rm -f $CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload/*.*-iphoneos.so\nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    rm -f $CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload/*.*-iphonesimulator.so\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
