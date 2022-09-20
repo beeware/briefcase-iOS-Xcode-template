@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
         // Set the full module path. This includes the stdlib, site-packages, and app code.
         NSLog(@"PYTHONPATH:");
         // // The .zip form of the stdlib
-        // path = [NSString stringWithFormat:@"%@/python311.zip", resourcePath, nil];
+        // path = [NSString stringWithFormat:@"%@/python{{ cookiecutter.python_version|py_libtag }}.zip", resourcePath, nil];
         // NSLog(@"- %@", path);
         // wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
         // status = PyWideStringList_Append(&config.module_search_paths, wtmp_str);
