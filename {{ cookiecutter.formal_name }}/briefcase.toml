@@ -1,7 +1,9 @@
+# Generated using Python {{ cookiecutter.python_version }}
 [paths]
 app_path = "{{ cookiecutter.app_name }}/app"
 app_packages_path = "{{ cookiecutter.app_name }}/app_packages"
 support_path = "Support"
+{{ {"3.8": "support_revision = 9", "3.9": "support_revision = 7", "3.10": "support_revision = 3"}.get(cookiecutter.python_version|py_tag, "") }}
 
 icon.20 = "{{ cookiecutter.app_name }}/Images.xcassets/AppIcon.appiconset/icon-20.png"
 icon.29 = "{{ cookiecutter.app_name }}/Images.xcassets/AppIcon.appiconset/icon-29.png"
