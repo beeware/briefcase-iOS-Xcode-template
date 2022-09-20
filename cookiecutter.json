@@ -7,11 +7,13 @@
     "splash_background_color": "#FFFFFF",
     "version": "1.0",
     "build": "1",
+    "python_version": "3.X.0",
     "_copy_without_render": [
         ".gitignore",
         "*.png"
     ],
     "_extensions": [
+        "briefcase.integrations.cookiecutter.PythonVersionExtension",
         "briefcase.integrations.cookiecutter.RGBExtension"
     ]
 }
