@@ -31,10 +31,10 @@
 		610000000000000000100100 /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
 		610000000000000000100200 /* app_packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages; sourceTree = "<group>"; };
 		610000000000000000100300 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		610000000000000000100400 /* Testbed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testbed.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		610000000000000000100500 /* testbed-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "testbed-Info.plist"; sourceTree = "<group>"; };
+		610000000000000000100400 /* {{ cookiecutter.formal_name }}.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = {{ cookiecutter.formal_name }}.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		610000000000000000100500 /* {{ cookiecutter.app_name }}-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "{{ cookiecutter.app_name }}-Info.plist"; sourceTree = "<group>"; };
 		610000000000000000100600 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		610000000000000000100700 /* testbed-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "testbed-Prefix.pch"; sourceTree = "<group>"; };
+		610000000000000000100700 /* {{ cookiecutter.app_name }}-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "{{ cookiecutter.app_name }}-Prefix.pch"; sourceTree = "<group>"; };
 		610000000000000000100800 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		610000000000000000100900 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
