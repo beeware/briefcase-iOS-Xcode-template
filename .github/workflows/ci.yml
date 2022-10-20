@@ -16,7 +16,6 @@ defaults:
 jobs:
   verify-apps:
     name: Build apps
-    needs: unit-tests
     strategy:
       matrix:
         os_name: ["macOS"]
