@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os_name: ["macOS"]
-        framework: ["toga", "pyside2", "pyside6", "ppb"]
+        framework: ["toga"]
         include:
           - os_name: macOS
             platform: macos-12
@@ -48,7 +48,6 @@ jobs:
       - name: Install packages
         run: pip install briefcase
       - name: Build iOS App
-        if: matrix.platform == 'macos-12' && matrix.framework == 'toga'
         run: |
           cd tests/apps/verify-${{ matrix.framework }}
           briefcase create iOS
