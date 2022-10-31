@@ -6,9 +6,6 @@ on:
       - main
   workflow_call:
 
-env:
-  python_version: "3.9"
-
 defaults:
   run:
     shell: bash # https://github.com/beeware/briefcase/pull/912
@@ -18,7 +15,7 @@ jobs:
     name: Build apps
     strategy:
       matrix:
-        os_name: ["macOS"]
+        python_version: ["3.8", "3.9", "3.10", "3.11"]
         framework: ["toga"]
         include:
           - os_name: macOS
@@ -31,7 +28,7 @@ jobs:
       - name: Cache Briefcase tools
         uses: actions/cache@v3.0.11
         with:
-          key: briefcase-${{ matrix.platform }}
+          key: briefcase-${{ matrix.platform }}-${{ matrix.python_version }}
           path: |
             ~/.cookiecutters
             ${{ matrix.briefcase-data-dir }}
@@ -43,7 +40,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4.3.0
         with:
-          python-version: ${{ env.python_version }}
+          python-version: ${{ matrix.python_version }}
       - name: Install packages
         run: pip install briefcase
       - name: Build iOS App

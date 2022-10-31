@@ -18,8 +18,8 @@ requires = [
 
 # Mobile deployments
 [tool.briefcase.app.verify-toga.iOS]
-template = "../../.."
 requires = [
     'toga-iOS>=0.3.0.dev38',
     'std-nslog~=1.0.0'
 ]
+template = "../../.."
