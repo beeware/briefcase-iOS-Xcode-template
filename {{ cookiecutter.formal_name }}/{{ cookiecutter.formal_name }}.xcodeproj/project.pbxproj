@@ -359,7 +359,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Prefix.pch";
 				INFOPLIST_FILE = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -379,7 +379,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Prefix.pch";
 				INFOPLIST_FILE = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
