@@ -2,6 +2,8 @@
 [paths]
 app_path = "{{ cookiecutter.class_name }}/app"
 app_packages_path = "{{ cookiecutter.class_name }}/app_packages"
+tests_path = "{{ cookiecutter.class_name }}/tests"
+test_packages_path = "{{ cookiecutter.class_name }}/test_packages"
 support_path = "Support"
 {{ {
     "3.8": "support_revision = 12",

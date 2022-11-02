@@ -40,9 +40,6 @@ int main(int argc, char *argv[]) {
         PyConfig_InitIsolatedConfig(&config);
 
         // Configure the Python interpreter:
-        // Run at optimization level 1
-        // (remove assertions, set __debug__ to False)
-        config.optimization_level = 1;
         // Don't buffer stdio. We want output to appears in the log immediately
         config.buffered_stdio = 0;
         // Don't write bytecode; we can't modify the app bundle

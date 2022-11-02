@@ -10,26 +10,10 @@
 #include <Python.h>
 
 @interface {{ cookiecutter.class_name }}Tests : XCTestCase {
-    int ret;
-    PyStatus status;
-    PyConfig config;
-    NSString *python_home;
-    NSString *path;
-    NSString *traceback_str;
-    wchar_t *wapp_module_name;
-    wchar_t *wtmp_str;
-    const char* nslog_script;
-    PyObject *app_module;
-    PyObject *module;
-    PyObject *module_attr;
-    PyObject *method_args;
-    PyObject *result;
-    PyObject *exc_type;
-    PyObject *exc_value;
-    PyObject *exc_traceback;
-    PyObject *systemExit_code;
-    PyObject *sys;
-    PyObject *sys_argv;
+    NSString *pluginsPath;
+    NSString *tests_path;
+    NSString *test_packages_path;
+    PyGILState_STATE gstate;
 }
 
 @end
@@ -37,24 +21,68 @@
 @implementation {{ cookiecutter.class_name }}Tests
 
 - (void)setUp {
-    NSString *appPath = [NSString stringWithFormat:@"%@/app", [[NSBundle mainBundle] resourcePath], nil];
-    chdir([appPath UTF8String]);
+    int ret = 0;
+    PyObject *module;
+    PyObject *module_attr;
+
+    // Test code is contained in a plugin path
+    pluginsPath = [[NSBundle mainBundle] builtInPlugInsPath];
+
+    tests_path = [NSString stringWithFormat:@"%@/{{ cookiecutter.class_name }}Tests.xctest/tests", pluginsPath, nil];
+    NSLog(@"Tests path: %@", tests_path);
+
+    test_packages_path = [NSString stringWithFormat:@"%@/{{ cookiecutter.class_name }}Tests.xctest/test_packages", pluginsPath, nil];
+    NSLog(@"Test packages path: %@", test_packages_path);
+
+    // Set the working directory to be the tests path
+    chdir([tests_path UTF8String]);
+
+    // Acquire the GIL state.
+    gstate = PyGILState_Ensure();
+
+    // Obtain sys.path so we can add the test code paths
+    module = PyImport_ImportModule("sys");
+    if (module == NULL) {
+        XCTFail(@"Could not access sys");
+        return;
+    }
+    module_attr = PyObject_GetAttrString(module, "path");
+    if (module_attr == NULL) {
+        XCTFail(@"Could not access sys.path");
+        return;
+    }
+
+    // Add test packages to sys.path
+    ret = PyList_Insert(module_attr, 0, PyUnicode_FromString([test_packages_path UTF8String]));
+    if (ret != 0)
+    {
+        XCTFail(@"Could not add test packages to system path");
+        return;
+    }
+
+    ret = PyList_Insert(module_attr, 0, PyUnicode_FromString([tests_path UTF8String]));
+    if (ret != 0)
+    {
+        XCTFail(@"Could not add test code to system path");
+        return;
+    }
 }
 
 - (void)tearDown {
+    PyGILState_Release(gstate);
 }
 
 - (void)testPython {
-    // Start the app module.
-    //
-    sys = PyImport_ImportModule("sys");
-    if (module == NULL) {
-        XCTFail(@"Could not import sys module");
-    }
-    sys_argv = PyObject_GetAttrString(sys, "argv");
-    if (module_attr == NULL) {
-        XCTFail(@"Could not access sys.argv");
-    }
+    int ret = 0;
+    PyObject *module;
+    PyObject *module_attr;
+    PyObject *method_args;
+    PyObject *result;
+    PyObject *test_module;
+    PyObject *exc_type;
+    PyObject *exc_value;
+    PyObject *exc_traceback;
+    PyObject *systemExit_code;
 
     // From here to Py_ObjectCall(runmodule...) is effectively
     // a copy of Py_RunMain() (and, more specifically, the
@@ -65,58 +93,59 @@
     module = PyImport_ImportModule("runpy");
     if (module == NULL) {
         XCTFail(@"Could not import runpy module");
+        return;
     }
 
     module_attr = PyObject_GetAttrString(module, "_run_module_as_main");
     if (module_attr == NULL) {
         XCTFail(@"Could not access runpy._run_module_as_main");
+        return;
     }
 
-    wchar_t *wtest_module_name = Py_DecodeLocale("pytest", NULL);
-    app_module = PyUnicode_FromWideChar(wtest_module_name, wcslen(wtest_module_name));
-    if (app_module == NULL) {
-        XCTFail(@"Could not convert module name to unicode");
+    test_module = PyUnicode_FromString("run_tests");
+    if (test_module == NULL) {
+        XCTFail(@"Could not convert test runner name to unicode");
+        return;
     }
 
-    method_args = Py_BuildValue("(Oi)", app_module, 0);
+    method_args = Py_BuildValue("(Oi)", test_module, 0);
     if (method_args == NULL) {
         XCTFail(@"Could not create arguments for runpy._run_module_as_main");
+        return;
     }
 
     result = PyObject_Call(module_attr, method_args, NULL);
 
+    // A well-behaved test suite will raise SystemExit() with 0 in the case
+    // of a success, non-zero in the case of failure. If we don't get that,
+    // then the test suite wasn't successful.
     if (result == NULL) {
         // Retrieve the current error state of the interpreter.
         PyErr_Fetch(&exc_type, &exc_value, &exc_traceback);
         PyErr_NormalizeException(&exc_type, &exc_value, &exc_traceback);
 
         if (exc_traceback == NULL) {
-            XCTFail(@"Could not retrieve traceback");
-        }
-
-        if (PyErr_GivenExceptionMatches(exc_value, PyExc_SystemExit)) {
+            XCTFail("Could not retrieve traceback from Python test suite.");
+        } else if (PyErr_GivenExceptionMatches(exc_value, PyExc_SystemExit)) {
+            // If it's a SystemExit, get the exit code, and use that
+            // to determine whether the test suite passed or failed.
             systemExit_code = PyObject_GetAttrString(exc_value, "code");
             if (systemExit_code == NULL) {
-                NSLog(@"Could not determine exit code");
-                ret = -10;
-            }
-            else {
-                ret = (int) PyLong_AsLong(systemExit_code);
+                XCTFail("Could not determine exit code from Python test suite.");
+            } else {
+                XCTAssertEqual(ret, PyLong_AsLong(systemExit_code), "Python test suite failed!");
             }
         } else {
-            ret = -6;
+            // Restore the error state of the interpreter.
+            PyErr_Restore(exc_type, exc_value, exc_traceback);
+
+            // Print exception to stderr.
+            PyErr_Print();
+            XCTFail("Python test suite did not run successfully.");
         }
-        XCTAssertEqual(ret, 0, "Python test suite failed");
     } else {
-        XCTFail(@"Test suite could not be executed");
+        XCTFail("Python test suite did not exit with success/fail.");
     }
 }
-
-//- (void)testPerformanceExample {
-//    // This is an example of a performance test case.
-//    [self measureBlock:^{
-//        // Put the code you want to measure the time of here.
-//    }];
-//}
 
 @end
