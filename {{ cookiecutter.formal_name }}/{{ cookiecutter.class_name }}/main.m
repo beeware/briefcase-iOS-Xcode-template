@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
     PyStatus status;
     PyConfig config;
     NSString *python_home;
+    NSString *app_module_name;
     NSString *path;
     NSString *traceback_str;
     wchar_t *wapp_module_name;
@@ -40,9 +41,6 @@ int main(int argc, char *argv[]) {
         PyConfig_InitIsolatedConfig(&config);
 
         // Configure the Python interpreter:
-        // Run at optimization level 1
-        // (remove assertions, set __debug__ to False)
-        config.optimization_level = 1;
         // Don't buffer stdio. We want output to appears in the log immediately
         config.buffered_stdio = 0;
         // Don't write bytecode; we can't modify the app bundle
@@ -63,8 +61,12 @@ int main(int argc, char *argv[]) {
         }
         PyMem_RawFree(wtmp_str);
 
-        // Set the app module name
-        wapp_module_name = Py_DecodeLocale("{{ cookiecutter.module_name }}", NULL);
+        // Determine the app module name
+        app_module_name = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"MainModule"];
+        if (app_module_name == NULL) {
+            NSLog(@"Unable to identify app module name.");
+        }
+        wapp_module_name = Py_DecodeLocale([app_module_name UTF8String], NULL);
         status = PyConfig_SetString(&config, &config.run_module, wapp_module_name);
         if (PyStatus_Exception(status)) {
             crash_dialog([NSString stringWithFormat:@"Unable to set app module name: %s", status.err_msg, nil]);
@@ -189,7 +191,7 @@ int main(int argc, char *argv[]) {
             // pymain_run_module() method); we need to re-implement it
             // because we need to be able to inspect the error state of
             // the interpreter, not just the return code of the module.
-            NSLog(@"Running app module: {{ cookiecutter.module_name }}");
+            NSLog(@"Running app module: %@", app_module_name);
             module = PyImport_ImportModule("runpy");
             if (module == NULL) {
                 crash_dialog(@"Could not import runpy module");
@@ -292,13 +294,15 @@ int main(int argc, char *argv[]) {
 void crash_dialog(NSString *details) {
     NSLog(@"Application has crashed!");
     NSLog(@"========================\n%@", details);
-
     // TODO - acutally make this a dialog
     // NSString *full_message = [NSString stringWithFormat:@"An unexpected error occurred.\n%@", details];
     // // Create a stack trace dialog
     // [UIAlertController alertControllerWithTitle:@"Application has crashed"
     //                                     message:full_message
     //                              preferredStyle:UIAlertControllerStyleAlert];
+
+    // Log a message that Briefcase can pick up as a termination.
+    NSLog(@">>>>>>>>>> App Terminated <<<<<<<<<<");
 }
 
 /**

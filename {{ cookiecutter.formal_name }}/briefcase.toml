@@ -2,6 +2,7 @@
 [paths]
 app_path = "{{ cookiecutter.class_name }}/app"
 app_packages_path = "{{ cookiecutter.class_name }}/app_packages"
+info_plist_path = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist"
 support_path = "Support"
 {{ {
     "3.8": "support_revision = 12",
