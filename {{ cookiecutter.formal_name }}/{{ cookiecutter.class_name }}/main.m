@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
     NSString *app_module_name;
     NSString *path;
     NSString *traceback_str;
-    wchar_t *wapp_module_name;
     wchar_t *wtmp_str;
+    const char* app_module_str;
     const char* nslog_script;
     PyObject *app_module;
     PyObject *module;
@@ -66,8 +66,8 @@ int main(int argc, char *argv[]) {
         if (app_module_name == NULL) {
             NSLog(@"Unable to identify app module name.");
         }
-        wapp_module_name = Py_DecodeLocale([app_module_name UTF8String], NULL);
-        status = PyConfig_SetString(&config, &config.run_module, wapp_module_name);
+        app_module_str = [app_module_name UTF8String];
+        status = PyConfig_SetBytesString(&config, &config.run_module, app_module_str);
         if (PyStatus_Exception(status)) {
             crash_dialog([NSString stringWithFormat:@"Unable to set app module name: %s", status.err_msg, nil]);
             PyConfig_Clear(&config);
@@ -204,7 +204,7 @@ int main(int argc, char *argv[]) {
                 exit(-3);
             }
 
-            app_module = PyUnicode_FromWideChar(wapp_module_name, wcslen(wapp_module_name));
+            app_module = PyUnicode_FromString(app_module_str);
             if (app_module == NULL) {
                 crash_dialog(@"Could not convert module name to unicode");
                 exit(-3);
@@ -279,8 +279,6 @@ int main(int argc, char *argv[]) {
         @finally {
             Py_Finalize();
         }
-
-        PyMem_RawFree(wapp_module_name);
     }
 
     exit(ret);
@@ -300,9 +298,6 @@ void crash_dialog(NSString *details) {
     // [UIAlertController alertControllerWithTitle:@"Application has crashed"
     //                                     message:full_message
     //                              preferredStyle:UIAlertControllerStyleAlert];
-
-    // Log a message that Briefcase can pick up as a termination.
-    NSLog(@">>>>>>>>>> App Terminated <<<<<<<<<<");
 }
 
 /**
