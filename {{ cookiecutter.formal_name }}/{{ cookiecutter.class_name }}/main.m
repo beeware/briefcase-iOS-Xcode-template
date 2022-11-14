@@ -216,6 +216,10 @@ int main(int argc, char *argv[]) {
                 exit(-4);
             }
 
+            // Print a separator to differentiate Python startup logs from app logs
+            NSLog(@"---------------------------------------------------------------------------");
+
+            // Invoke the app module
             result = PyObject_Call(module_attr, method_args, NULL);
 
             if (result == NULL) {
