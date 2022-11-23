@@ -45,5 +45,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>MainModule</key>
+	<string>{{ cookiecutter.module_name }}</string>
 </dict>
 </plist>

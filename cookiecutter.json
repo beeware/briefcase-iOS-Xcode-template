@@ -1,6 +1,7 @@
 {
     "formal_name": "App Name",
     "app_name": "{{ cookiecutter.formal_name|lower|replace(' ', '-') }}",
+    "class_name": "{{ cookiecutter.formal_name.title().replace(' ','').replace('-','').replace('!','').replace('.','').replace(',','') }}",
     "module_name": "{{ cookiecutter.app_name|replace('-', '_') }}",
     "author": "Example Corporation",
     "bundle": "com.example",
