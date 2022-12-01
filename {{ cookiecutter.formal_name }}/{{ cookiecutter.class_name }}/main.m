@@ -15,6 +15,7 @@ NSString * format_traceback(PyObject *type, PyObject *value, PyObject *traceback
 int main(int argc, char *argv[]) {
     int ret = 0;
     PyStatus status;
+    PyPreConfig preconfig;
     PyConfig config;
     NSString *python_home;
     NSString *app_module_name;
@@ -38,9 +39,13 @@ int main(int argc, char *argv[]) {
 
         // Generate an isolated Python configuration.
         NSLog(@"Configuring isolated Python...");
+        PyPreConfig_InitIsolatedConfig(&preconfig);
         PyConfig_InitIsolatedConfig(&config);
 
         // Configure the Python interpreter:
+        // Enforce UTF-8 encoding for stderr, stdout, file-system encoding and locale.
+        // See https://docs.python.org/3/library/os.html#python-utf-8-mode.
+        preconfig.utf8_mode = 1;
         // Don't buffer stdio. We want output to appears in the log immediately
         config.buffered_stdio = 0;
         // Don't write bytecode; we can't modify the app bundle
@@ -48,6 +53,14 @@ int main(int argc, char *argv[]) {
         config.write_bytecode = 0;
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
+
+        NSLog(@"Pre-initializing Python runtime...");
+        status = Py_PreInitialize(&preconfig);
+        if (PyStatus_Exception(status)) {
+            crash_dialog([NSString stringWithFormat:@"Unable to pre-initialize Python interpreter: %s", status.err_msg, nil]);
+            PyConfig_Clear(&config);
+            Py_ExitStatusException(status);
+        }
 
         // Set the home for the Python interpreter
         python_home = [NSString stringWithFormat:@"%@/python-stdlib", resourcePath, nil];
