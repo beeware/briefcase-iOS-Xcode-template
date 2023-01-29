@@ -24,10 +24,6 @@
 	<string>{{ cookiecutter.build }}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -47,5 +43,12 @@
 	</array>
 	<key>MainModule</key>
 	<string>{{ cookiecutter.module_name }}</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
 </dict>
 </plist>
