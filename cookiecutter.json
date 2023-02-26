@@ -1,4 +1,5 @@
 {
+    "format": "Xcode",
     "formal_name": "App Name",
     "app_name": "{{ cookiecutter.formal_name|lower|replace(' ', '-') }}",
     "class_name": "{{ cookiecutter.formal_name.title().replace(' ','').replace('-','').replace('!','').replace('.','').replace(',','') }}",
