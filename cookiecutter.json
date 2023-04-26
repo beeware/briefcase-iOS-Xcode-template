@@ -6,6 +6,7 @@
     "module_name": "{{ cookiecutter.app_name|replace('-', '_') }}",
     "author": "Example Corporation",
     "bundle": "com.example",
+    "bundle_identifier": "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name|replace('_', '-') }}",
     "splash_background_color": "#FFFFFF",
     "version": "1.0",
     "build": "1",
