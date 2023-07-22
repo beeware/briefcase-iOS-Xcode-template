@@ -25,6 +25,6 @@ icon.167 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/ico
 icon.180 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/icon-180.png"
 icon.1024 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/icon-1024.png"
 
-splash.1024 = "{{ cookiecutter.class_name }}/Images.xcassets/Splash.imageset/splash-1024.png"
-splash.2048 = "{{ cookiecutter.class_name }}/Images.xcassets/Splash.imageset/splash-2048.png"
-splash.3072 = "{{ cookiecutter.class_name }}/Images.xcassets/Splash.imageset/splash-3072.png"
+splash.800 = "{{ cookiecutter.class_name }}/Images.xcassets/Splash.imageset/splash-800.png"
+splash.1600 = "{{ cookiecutter.class_name }}/Images.xcassets/Splash.imageset/splash-1600.png"
+splash.2400 = "{{ cookiecutter.class_name }}/Images.xcassets/Splash.imageset/splash-2400.png"
