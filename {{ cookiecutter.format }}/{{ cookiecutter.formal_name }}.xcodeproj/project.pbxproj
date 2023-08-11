@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41E2D5062A840C16002AE68E /* frameworks-xml-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41E2D5052A840C16002AE68E /* frameworks-xml-Info.plist */; };
 		600000000000000000000800 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000800 /* CoreGraphics.framework */; };
 		600000000000000000000900 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000900 /* Foundation.framework */; };
 		600000000000000000000A00 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000A00 /* UIKit.framework */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41E2D5052A840C16002AE68E /* frameworks-xml-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "frameworks-xml-Info.plist"; sourceTree = "<group>"; };
 		60A04BC328B35ECB00DAA9E5 /* python-stdlib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "python-stdlib"; sourceTree = "<group>"; };
 		60A04BC528B35ED400DAA9E5 /* Python.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Python.xcframework; path = Support/Python.xcframework; sourceTree = "<group>"; };
 		60C0057828F7DB9A008B9E84 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -99,6 +101,7 @@
 		60796EEC19190F4100A9926B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				41E2D5052A840C16002AE68E /* frameworks-xml-Info.plist */,
 				610000000000000000100300 /* main.m */,
 				610000000000000000100500 /* {{ cookiecutter.class_name }}-Info.plist */,
 				610000000000000000100700 /* {{ cookiecutter.class_name }}-Prefix.pch */,
@@ -171,6 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41E2D5062A840C16002AE68E /* frameworks-xml-Info.plist in Resources */,
 				600000000000000000100000 /* InfoPlist.strings in Resources */,
 				600000000000000000100200 /* Images.xcassets in Resources */,
 				600000000000000000100300 /* Launch Screen.storyboard in Resources */,
@@ -185,7 +189,6 @@
 /* Begin PBXShellScriptBuildPhase section */
 		609384A528B45C86005B2A5D /* Sign Python Binary Modules */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -200,8 +203,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\necho \"Signed as $EXPANDED_CODE_SIGN_IDENTITY_NAME ($EXPANDED_CODE_SIGN_IDENTITY)\"\nfind \"$CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload\" -name \"*.so\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der {} \\; \nfind \"$CODESIGNING_FOLDER_PATH/app_packages\" -name \"*.so\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der {} \\; \nfind \"$CODESIGNING_FOLDER_PATH/app\" -name \"*.so\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der {} \\; \n";
-			showEnvVarsInLog = 0;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nDESTINATION=${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\n\nmkdir -p \"$DESTINATION\"\n\nfind \"$CODESIGNING_FOLDER_PATH\" -path \"$DESTINATION\" -prune -o -name \"*.dylib\" -exec  sh -c 'filename=$(basename \"{}\");  DESTINATION=\"$1\"; PackageName=$(echo $filename | cut -d \".\" -f 1); install_name_tool -id  \"@rpath/$PackageName.framework/$filename\" \"{}\"; mkdir -p \"$DESTINATION/$PackageName.framework\"; mv -vn \"{}\" \"$DESTINATION/$PackageName.framework\"; cp \"$CODESIGNING_FOLDER_PATH/frameworks-xml-Info.plist\" \"$DESTINATION/$PackageName.framework/Info.plist\";  defaults write \"$DESTINATION/$PackageName.framework/Info.plist\" CFBundleExecutable -string $filename; PackageBundleID=$(echo \"$PRODUCT_BUNDLE_IDENTIFIER.$PackageName\" | tr \"_\" \"-\"); defaults write \"$DESTINATION/$PackageName.framework/Info.plist\" CFBundleIdentifier -string \"$PackageBundleID\"' -- \"$DESTINATION\" \\;\n\nfind \"$DESTINATION\" -name \"*.framework\" -exec codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" ${OTHER_CODE_SIGN_FLAGS:-} --preserve-metadata=identifier,entitlements \"{}\" \\;\n";
 		};
 		609384A628B5B958005B2A5D /* Purge Python Binary Modules for Non-Target Platforms */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -220,8 +222,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    rm -f $CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload/*.*-iphoneos.so\nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    rm -f $CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload/*.*-iphonesimulator.so\nfi\n";
-			showEnvVarsInLog = 0;
+			shellScript = "if [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*-iphoneos.dylib\" -exec rm -vf \"{}\" \\;\nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*-iphonesimulator.dylib\" -exec rm -vf \"{}\" \\;\nfi\n\necho \"Purging Python .so binaries\"\nfind \"$CODESIGNING_FOLDER_PATH\" -name \"*.so\" -exec rm -vf \"{}\" \\;\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
