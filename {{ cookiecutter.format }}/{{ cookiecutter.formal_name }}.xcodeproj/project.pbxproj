@@ -15,6 +15,7 @@
 		600000000000000000100100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100300 /* main.m */; };
 		600000000000000000100200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100800 /* Images.xcassets */; };
 		600000000000000000100300 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100900 /* Launch Screen.storyboard */; };
+		60754F822AA5926A0013A4FB /* dylib-Info-template.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60754F802AA57C440013A4FB /* dylib-Info-template.plist */; };
 		60A04BC428B35ECB00DAA9E5 /* python-stdlib in Resources */ = {isa = PBXBuildFile; fileRef = 60A04BC328B35ECB00DAA9E5 /* python-stdlib */; };
 		60A04BC628B35ED400DAA9E5 /* Python.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A04BC528B35ED400DAA9E5 /* Python.xcframework */; };
 		60A04BC728B35FD000DAA9E5 /* app in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100100 /* app */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		60754F802AA57C440013A4FB /* dylib-Info-template.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "dylib-Info-template.plist"; sourceTree = "<group>"; };
 		60A04BC328B35ECB00DAA9E5 /* python-stdlib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "python-stdlib"; sourceTree = "<group>"; };
 		60A04BC528B35ED400DAA9E5 /* Python.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Python.xcframework; path = Support/Python.xcframework; sourceTree = "<group>"; };
 		60C0057828F7DB9A008B9E84 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -104,6 +106,7 @@
 				610000000000000000100700 /* {{ cookiecutter.class_name }}-Prefix.pch */,
 				60796EEE19190F4100A9926B /* InfoPlist.strings */,
 				610000000000000000100900 /* Launch Screen.storyboard */,
+				60754F802AA57C440013A4FB /* dylib-Info-template.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				600000000000000000100200 /* Images.xcassets in Resources */,
 				600000000000000000100300 /* Launch Screen.storyboard in Resources */,
 				60A04BC728B35FD000DAA9E5 /* app in Resources */,
+				60754F822AA5926A0013A4FB /* dylib-Info-template.plist in Resources */,
 				60A04BC828B35FD000DAA9E5 /* app_packages in Resources */,
 				60A04BC428B35ECB00DAA9E5 /* python-stdlib in Resources */,
 			);
@@ -200,7 +204,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\necho \"Signed as $EXPANDED_CODE_SIGN_IDENTITY_NAME ($EXPANDED_CODE_SIGN_IDENTITY)\"\nfind \"$CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload\" -name \"*.so\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der {} \\; \nfind \"$CODESIGNING_FOLDER_PATH/app_packages\" -name \"*.so\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der {} \\; \nfind \"$CODESIGNING_FOLDER_PATH/app\" -name \"*.so\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der {} \\; \n";
+			shellScript = "set -e\n\ninstall_dylib () {\n    INSTALL_BASE=$1\n    FULL_DYLIB=$2\n\n    # The name of the .dylib file\n    DYLIB=$(basename \"$FULL_DYLIB\")\n    # The name of the .dylib file, relative to the install base\n    RELATIVE_DYLIB=${FULL_DYLIB#$CODESIGNING_FOLDER_PATH/$INSTALL_BASE/}\n    # The (hopefully unique) name of the framework, constructed by replacing path\n    # separators in the relative name with underscores.\n    FRAMEWORK_NAME=$(echo $RELATIVE_DYLIB | cut -d \".\" -f 1 | tr \"/\" \"_\"); \n    # A bundle identifier; not actually used, but required by Xcode framework packaging\n    FRAMEWORK_BUNDLE_ID=$(echo $PRODUCT_BUNDLE_IDENTIFIER.$FRAMEWORK_NAME | tr \"_\" \"-\")\n    # The name of the framework folder.\n    FRAMEWORK_FOLDER=\"Frameworks/$FRAMEWORK_NAME.framework\"\n\n    # If the framework folder doesn't exist, create it.\n    if [ ! -d \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\" ]; then\n        echo \"Creating framework for $RELATIVE_DYLIB\" \n        mkdir -p \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\"\n\n        cp \"$CODESIGNING_FOLDER_PATH/dylib-Info-template.plist\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\"\n        defaults write \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\" CFBundleExecutable -string \"$DYLIB\"\n        defaults write \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\" CFBundleIdentifier -string \"$FRAMEWORK_BUNDLE_ID\" \n    fi\n    \n    # If the library location is *not* a symlink, then it's been updated; reinstall it.\n    if [ ! -L \"$FULL_DYLIB\" ]; then \n        echo \"Installing binary for $RELATIVE_DYLIB\" \n        mv \"$FULL_DYLIB\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\"\n    fi\n}\n\necho \"Install standard library dylibs...\"\nfind \"$CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload\" -name \"*.dylib\" | while read FULL_DYLIB; do\n    install_dylib python-stdlib/lib-dynload \"$FULL_DYLIB\"\ndone\necho \"Install app package dylibs...\"\nfind \"$CODESIGNING_FOLDER_PATH/app_packages\" -name \"*.dylib\" | while read FULL_DYLIB; do\n    install_dylib python-stdlib/lib-dynload \"$FULL_DYLIB\"\ndone\necho \"Install app dylibs...\"\nfind \"$CODESIGNING_FOLDER_PATH/app\" -name \"*.dylib\" | while read FULL_DYLIB; do\n    install_dylib python-stdlib/lib-dynload \"$FULL_DYLIB\"\ndone\n\necho \"Signing frameworks as $EXPANDED_CODE_SIGN_IDENTITY_NAME ($EXPANDED_CODE_SIGN_IDENTITY)...\"\nfind \"$CODESIGNING_FOLDER_PATH/Frameworks\" -name \"*.framework\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der {} \\; \n";
 			showEnvVarsInLog = 0;
 		};
 		609384A628B5B958005B2A5D /* Purge Python Binary Modules for Non-Target Platforms */ = {
@@ -220,7 +224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    rm -f $CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload/*.*-iphoneos.so\nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    rm -f $CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload/*.*-iphonesimulator.so\nfi\n";
+			shellScript = "if [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*.*-iphoneos.dylib\" -exec rm {} \\;   \nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*.*-iphonesimulator.dylib\" -exec rm {} \\;   \nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
