@@ -10,7 +10,6 @@
 		600000000000000000000800 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000800 /* CoreGraphics.framework */; };
 		600000000000000000000900 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000900 /* Foundation.framework */; };
 		600000000000000000000A00 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610000000000000000000A00 /* UIKit.framework */; };
-		60C0057928F7DB9A008B9E84 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60C0057828F7DB9A008B9E84 /* WebKit.framework */; };
 		600000000000000000100000 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 60796EEE19190F4100A9926B /* InfoPlist.strings */; };
 		600000000000000000100100 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100300 /* main.m */; };
 		600000000000000000100200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100800 /* Images.xcassets */; };
@@ -19,19 +18,22 @@
 		60A04BC428B35ECB00DAA9E5 /* python-stdlib in Resources */ = {isa = PBXBuildFile; fileRef = 60A04BC328B35ECB00DAA9E5 /* python-stdlib */; };
 		60A04BC628B35ED400DAA9E5 /* Python.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A04BC528B35ED400DAA9E5 /* Python.xcframework */; };
 		60A04BC728B35FD000DAA9E5 /* app in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100100 /* app */; };
-		60A04BC828B35FD000DAA9E5 /* app_packages in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100200 /* app_packages */; };
+		60A421FE2AB4256300E46BC3 /* app_packages.iphonesimulator in Resources */ = {isa = PBXBuildFile; fileRef = 60A421FC2AB4256300E46BC3 /* app_packages.iphonesimulator */; };
+		60A421FF2AB4256300E46BC3 /* app_packages.iphoneos in Resources */ = {isa = PBXBuildFile; fileRef = 60A421FD2AB4256300E46BC3 /* app_packages.iphoneos */; };
+		60C0057928F7DB9A008B9E84 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60C0057828F7DB9A008B9E84 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		60754F802AA57C440013A4FB /* dylib-Info-template.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "dylib-Info-template.plist"; sourceTree = "<group>"; };
 		60A04BC328B35ECB00DAA9E5 /* python-stdlib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "python-stdlib"; sourceTree = "<group>"; };
 		60A04BC528B35ED400DAA9E5 /* Python.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Python.xcframework; path = Support/Python.xcframework; sourceTree = "<group>"; };
+		60A421FC2AB4256300E46BC3 /* app_packages.iphonesimulator */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages.iphonesimulator; sourceTree = "<group>"; };
+		60A421FD2AB4256300E46BC3 /* app_packages.iphoneos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages.iphoneos; sourceTree = "<group>"; };
 		60C0057828F7DB9A008B9E84 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		610000000000000000000800 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		610000000000000000000900 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		610000000000000000000A00 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		610000000000000000100100 /* app */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app; sourceTree = "<group>"; };
-		610000000000000000100200 /* app_packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages; sourceTree = "<group>"; };
 		610000000000000000100300 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		610000000000000000100400 /* {{ cookiecutter.formal_name }}.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "{{ cookiecutter.formal_name }}.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		610000000000000000100500 /* {{ cookiecutter.class_name }}-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "{{ cookiecutter.class_name }}-Info.plist"; sourceTree = "<group>"; };
@@ -91,7 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				610000000000000000100100 /* app */,
-				610000000000000000100200 /* app_packages */,
+				60A421FD2AB4256300E46BC3 /* app_packages.iphoneos */,
+				60A421FC2AB4256300E46BC3 /* app_packages.iphonesimulator */,
 				610000000000000000100800 /* Images.xcassets */,
 				60796EEC19190F4100A9926B /* Supporting Files */,
 			);
@@ -178,9 +181,10 @@
 				600000000000000000100200 /* Images.xcassets in Resources */,
 				600000000000000000100300 /* Launch Screen.storyboard in Resources */,
 				60A04BC728B35FD000DAA9E5 /* app in Resources */,
-				60754F822AA5926A0013A4FB /* dylib-Info-template.plist in Resources */,
-				60A04BC828B35FD000DAA9E5 /* app_packages in Resources */,
 				60A04BC428B35ECB00DAA9E5 /* python-stdlib in Resources */,
+				60A421FF2AB4256300E46BC3 /* app_packages.iphoneos in Resources */,
+				60A421FE2AB4256300E46BC3 /* app_packages.iphonesimulator in Resources */,
+				60754F822AA5926A0013A4FB /* dylib-Info-template.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,7 +227,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*.*-iphoneos.dylib\" -exec rm -f \"{}\" \\;   \nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*.*-iphonesimulator.dylib\" -exec rm -f \"{}\" \\;   \nfi\n";
+			shellScript = "rm -rf \"$CODESIGNING_FOLDER_PATH/app_packages\"\nif [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    rm -rf \"$CODESIGNING_FOLDER_PATH/app_packages.iphoneos\" \n    mv \"$CODESIGNING_FOLDER_PATH/app_packages.iphonesimulator\" \"$CODESIGNING_FOLDER_PATH/app_packages\"\n    find \"$CODESIGNING_FOLDER_PATH/python-stdlib\" -name \"*.*-iphoneos.dylib\" -exec rm -f \"{}\" \\;\nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    rm -rf \"$CODESIGNING_FOLDER_PATH/app_packages.iphonesimulator\" \n    mv \"$CODESIGNING_FOLDER_PATH/app_packages.iphoneos\" \"$CODESIGNING_FOLDER_PATH/app_packages\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*.*-iphonesimulator.dylib\" -exec rm -f \"{}\" \\;   \nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
