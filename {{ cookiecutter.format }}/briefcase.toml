@@ -1,4 +1,8 @@
 # Generated using Python {{ cookiecutter.python_version }}
+[briefcase]
+# This is the start of the new-style dylib era.
+target_version = "0.3.16"
+
 [paths]
 app_path = "{{ cookiecutter.class_name }}/app"
 app_packages_path = "{{ cookiecutter.class_name }}/app_packages"
