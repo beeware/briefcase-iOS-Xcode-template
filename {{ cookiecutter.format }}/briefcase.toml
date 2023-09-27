@@ -5,10 +5,10 @@ app_packages_path = "{{ cookiecutter.class_name }}/app_packages"
 info_plist_path = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist"
 support_path = "Support"
 {{ {
-    "3.8": "support_revision = 12",
-    "3.9": "support_revision = 10",
-    "3.10": "support_revision = 6",
-    "3.11": "support_revision = 1"
+    "3.8": "support_revision = 13",
+    "3.9": "support_revision = 11",
+    "3.10": "support_revision = 7",
+    "3.11": "support_revision = 2"
 }.get(cookiecutter.python_version|py_tag, "") }}
 
 icon.20 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/icon-20.png"
