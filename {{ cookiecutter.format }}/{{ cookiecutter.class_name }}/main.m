@@ -53,6 +53,8 @@ int main(int argc, char *argv[]) {
         config.write_bytecode = 0;
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
+        // For debugging - enable verbose mode.
+        // config.verbose = 1;
 
         NSLog(@"Pre-initializing Python runtime...");
         status = Py_PreInitialize(&preconfig);
