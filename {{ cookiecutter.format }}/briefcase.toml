@@ -13,7 +13,7 @@ support_path = "Support"
     "3.9": "support_revision = 11",
     "3.10": "support_revision = 7",
     "3.11": "support_revision = 2",
-    "3.12": "support_revision = 0",
+    "3.12": "support_revision = 1",
 }.get(cookiecutter.python_version|py_tag, "") }}
 
 icon.20 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/icon-20.png"
