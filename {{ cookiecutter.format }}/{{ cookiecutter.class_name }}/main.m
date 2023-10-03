@@ -53,6 +53,8 @@ int main(int argc, char *argv[]) {
         config.write_bytecode = 0;
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
+        // For debugging - enable verbose mode.
+        // config.verbose = 1;
 
         NSLog(@"Pre-initializing Python runtime...");
         status = Py_PreInitialize(&preconfig);
@@ -120,18 +122,6 @@ int main(int argc, char *argv[]) {
             Py_ExitStatusException(status);
         }
         PyMem_RawFree(wtmp_str);
-
-         // Add the stdlib binary modules path
-         path = [NSString stringWithFormat:@"%@/python-stdlib/lib-dynload", resourcePath, nil];
-         NSLog(@"- %@", path);
-         wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
-         status = PyWideStringList_Append(&config.module_search_paths, wtmp_str);
-         if (PyStatus_Exception(status)) {
-             crash_dialog([NSString stringWithFormat:@"Unable to set stdlib binary module path: %s", status.err_msg, nil]);
-             PyConfig_Clear(&config);
-             Py_ExitStatusException(status);
-         }
-         PyMem_RawFree(wtmp_str);
 
         // Add the app_packages path
         path = [NSString stringWithFormat:@"%@/app_packages", resourcePath, nil];
