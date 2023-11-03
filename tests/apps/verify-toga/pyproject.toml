@@ -19,7 +19,7 @@ requires = [
 # Mobile deployments
 [tool.briefcase.app.verify-toga.iOS]
 requires = [
-    'toga-iOS>=0.3.0.dev38',
+    'toga-iOS~=0.4.0',
     'std-nslog~=1.0.0'
 ]
 template = "../../.."
