@@ -6,21 +6,30 @@ on:
       - main
   workflow_call:
 
+# Cancel active CI runs for a PR before starting another run
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 defaults:
   run:
-    shell: bash  # https://github.com/beeware/briefcase/pull/912
+    shell: bash
+
+env:
+  FORCE_COLOR: "1"
 
 jobs:
   pre-commit:
     name: Pre-commit checks
     uses: beeware/.github/.github/workflows/pre-commit-run.yml@main
     with:
-      pre-commit-source: "pre-commit"
+      pre-commit-source: pre-commit
 
   verify-apps:
     name: Build apps
     needs: pre-commit
-    uses: beeware/.github/.github/workflows/app-build-verify.yml@main
+#    uses: beeware/.github/.github/workflows/app-build-verify.yml@main
+    uses: rmartin16/.github-beeware/.github/workflows/app-build-verify.yml@create-new-project
     with:
       python-version: ${{ matrix.python-version }}
       runner-os: macos-latest
