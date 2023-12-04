@@ -51,6 +51,8 @@ int main(int argc, char *argv[]) {
         // Don't write bytecode; we can't modify the app bundle
         // after it has been signed.
         config.write_bytecode = 0;
+        // Disable the user site module
+        config.site_import = 0;
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
         // For debugging - enable verbose mode.
@@ -71,6 +73,18 @@ int main(int argc, char *argv[]) {
         status = PyConfig_SetString(&config, &config.home, wtmp_str);
         if (PyStatus_Exception(status)) {
             crash_dialog([NSString stringWithFormat:@"Unable to set PYTHONHOME: %s", status.err_msg, nil]);
+            PyConfig_Clear(&config);
+            Py_ExitStatusException(status);
+        }
+        PyMem_RawFree(wtmp_str);
+
+        // Set the stdlib location
+        path = [NSString stringWithFormat:@"%@/python/lib/python{{ cookiecutter.python_version|py_tag }}", resourcePath, nil];
+        NSLog(@"Stdlib dir: %@", path);
+        wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
+        status = PyConfig_SetString(&config, &config.stdlib_dir, wtmp_str);
+        if (PyStatus_Exception(status)) {
+            crash_dialog([NSString stringWithFormat:@"Unable to set stdlib dir: %s", status.err_msg, nil]);
             PyConfig_Clear(&config);
             Py_ExitStatusException(status);
         }
