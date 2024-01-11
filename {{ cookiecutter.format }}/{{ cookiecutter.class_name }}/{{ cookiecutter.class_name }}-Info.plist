@@ -50,5 +50,11 @@
 		<key>UISceneConfigurations</key>
 		<dict/>
 	</dict>
+{%- if cookiecutter.permissions -%}
+	{%- for permission, value in cookiecutter.permissions.items() %}
+	<key>{{ permission }}</key>
+	{{ value|plist_value }}
+	{%- endfor -%}
+{%- endif %}
 </dict>
 </plist>

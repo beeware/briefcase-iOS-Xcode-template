@@ -8,6 +8,7 @@
     "bundle": "com.example",
     "bundle_identifier": "{{ cookiecutter.bundle }}.{{ cookiecutter.app_name|replace('_', '-') }}",
     "splash_background_color": "#FFFFFF",
+    "permissions": "",
     "version": "1.0",
     "build": "1",
     "python_version": "3.X.0",
@@ -17,6 +18,7 @@
     ],
     "_extensions": [
         "briefcase.integrations.cookiecutter.PythonVersionExtension",
-        "briefcase.integrations.cookiecutter.RGBExtension"
+        "briefcase.integrations.cookiecutter.RGBExtension",
+        "briefcase.integrations.cookiecutter.PListExtension"
     ]
 }
