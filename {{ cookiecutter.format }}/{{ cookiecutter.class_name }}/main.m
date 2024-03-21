@@ -51,8 +51,6 @@ int main(int argc, char *argv[]) {
         // Don't write bytecode; we can't modify the app bundle
         // after it has been signed.
         config.write_bytecode = 0;
-        // Disable the user site module
-        config.site_import = 0;
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
         // For debugging - enable verbose mode.
@@ -115,6 +113,18 @@ int main(int argc, char *argv[]) {
         NSLog(@"PYTHONPATH:");
         // The unpacked form of the stdlib
         path = [NSString stringWithFormat:@"%@/python/lib/python{{ cookiecutter.python_version|py_tag }}", resourcePath, nil];
+        NSLog(@"- %@", path);
+        wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
+        status = PyWideStringList_Append(&config.module_search_paths, wtmp_str);
+        if (PyStatus_Exception(status)) {
+            crash_dialog([NSString stringWithFormat:@"Unable to set unpacked form of stdlib path: %s", status.err_msg, nil]);
+            PyConfig_Clear(&config);
+            Py_ExitStatusException(status);
+        }
+        PyMem_RawFree(wtmp_str);
+
+        // The binary modules in the stdlib
+        path = [NSString stringWithFormat:@"%@/python/lib/python{{ cookiecutter.python_version|py_tag }}/lib-dynload", resourcePath, nil];
         NSLog(@"- %@", path);
         wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
         status = PyWideStringList_Append(&config.module_search_paths, wtmp_str);
