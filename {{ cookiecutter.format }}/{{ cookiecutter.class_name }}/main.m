@@ -76,18 +76,6 @@ int main(int argc, char *argv[]) {
         }
         PyMem_RawFree(wtmp_str);
 
-        // Set the stdlib location
-        path = [NSString stringWithFormat:@"%@/python/lib/python{{ cookiecutter.python_version|py_tag }}", resourcePath, nil];
-        NSLog(@"Stdlib dir: %@", path);
-        wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
-        status = PyConfig_SetString(&config, &config.stdlib_dir, wtmp_str);
-        if (PyStatus_Exception(status)) {
-            crash_dialog([NSString stringWithFormat:@"Unable to set stdlib dir: %s", status.err_msg, nil]);
-            PyConfig_Clear(&config);
-            Py_ExitStatusException(status);
-        }
-        PyMem_RawFree(wtmp_str);
-
         // Determine the app module name
         app_module_name = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"MainModule"];
         if (app_module_name == NULL) {
