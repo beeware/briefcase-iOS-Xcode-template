@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
     PyStatus status;
     PyPreConfig preconfig;
     PyConfig config;
+    NSString *python_tag;
     NSString *python_home;
     NSString *app_module_name;
     NSString *path;
@@ -65,6 +66,7 @@ int main(int argc, char *argv[]) {
         }
 
         // Set the home for the Python interpreter
+        python_tag = @"{{ cookiecutter.python_version|py_tag }}";
         python_home = [NSString stringWithFormat:@"%@/python", resourcePath, nil];
         NSLog(@"PythonHome: %@", python_home);
         wtmp_str = Py_DecodeLocale([python_home UTF8String], NULL);
@@ -100,7 +102,7 @@ int main(int argc, char *argv[]) {
         // Set the full module path. This includes the stdlib, site-packages, and app code.
         NSLog(@"PYTHONPATH:");
         // The unpacked form of the stdlib
-        path = [NSString stringWithFormat:@"%@/python/lib/python{{ cookiecutter.python_version|py_tag }}", resourcePath, nil];
+        path = [NSString stringWithFormat:@"%@/lib/python%@", python_home, python_tag, nil];
         NSLog(@"- %@", path);
         wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
         status = PyWideStringList_Append(&config.module_search_paths, wtmp_str);
@@ -112,7 +114,7 @@ int main(int argc, char *argv[]) {
         PyMem_RawFree(wtmp_str);
 
         // The binary modules in the stdlib
-        path = [NSString stringWithFormat:@"%@/python/lib/python{{ cookiecutter.python_version|py_tag }}/lib-dynload", resourcePath, nil];
+        path = [NSString stringWithFormat:@"%@/lib/python%@/lib-dynload", python_home, python_tag, nil];
         NSLog(@"- %@", path);
         wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
         status = PyWideStringList_Append(&config.module_search_paths, wtmp_str);
