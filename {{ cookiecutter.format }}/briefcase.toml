@@ -1,7 +1,7 @@
 # Generated using Python {{ cookiecutter.python_version }}
 [briefcase]
-# This is the start of the PEP 730 framework era.
-target_version = "0.3.20"
+# This is the start of the new-style dylib era.
+target_version = "0.3.16"
 
 [paths]
 app_path = "{{ cookiecutter.class_name }}/app"
@@ -9,11 +9,11 @@ app_packages_path = "{{ cookiecutter.class_name }}/app_packages"
 info_plist_path = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist"
 support_path = "Support"
 {{ {
-    "3.9": "support_revision = 13",
-    "3.10": "support_revision = 9",
-    "3.11": "support_revision = 4",
-    "3.12": "support_revision = 3",
-    "3.13": "support_revision = 0",
+    "3.8": "support_revision = 14",
+    "3.9": "support_revision = 12",
+    "3.10": "support_revision = 8",
+    "3.11": "support_revision = 3",
+    "3.12": "support_revision = 2",
 }.get(cookiecutter.python_version|py_tag, "") }}
 
 icon.20 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/icon-20.png"

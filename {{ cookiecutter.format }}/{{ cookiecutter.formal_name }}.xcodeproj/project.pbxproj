@@ -15,29 +15,18 @@
 		600000000000000000100200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100800 /* Images.xcassets */; };
 		600000000000000000100300 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100900 /* Launch Screen.storyboard */; };
 		60754F822AA5926A0013A4FB /* dylib-Info-template.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60754F802AA57C440013A4FB /* dylib-Info-template.plist */; };
-		60813D372B02EED200EFB492 /* Python.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60813D352B02EBFC00EFB492 /* Python.xcframework */; };
-		60813D382B02EED200EFB492 /* Python.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 60813D352B02EBFC00EFB492 /* Python.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		60A04BC428B35ECB00DAA9E5 /* python-stdlib in Resources */ = {isa = PBXBuildFile; fileRef = 60A04BC328B35ECB00DAA9E5 /* python-stdlib */; };
+		60A04BC628B35ED400DAA9E5 /* Python.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60A04BC528B35ED400DAA9E5 /* Python.xcframework */; };
 		60A04BC728B35FD000DAA9E5 /* app in Resources */ = {isa = PBXBuildFile; fileRef = 610000000000000000100100 /* app */; };
+		60A421FE2AB4256300E46BC3 /* app_packages.iphonesimulator in Resources */ = {isa = PBXBuildFile; fileRef = 60A421FC2AB4256300E46BC3 /* app_packages.iphonesimulator */; };
+		60A421FF2AB4256300E46BC3 /* app_packages.iphoneos in Resources */ = {isa = PBXBuildFile; fileRef = 60A421FD2AB4256300E46BC3 /* app_packages.iphoneos */; };
 		60C0057928F7DB9A008B9E84 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60C0057828F7DB9A008B9E84 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		6060E7A12AF8BF4400C04AE0 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				60813D382B02EED200EFB492 /* Python.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		60754F802AA57C440013A4FB /* dylib-Info-template.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "dylib-Info-template.plist"; sourceTree = "<group>"; };
-		60813D352B02EBFC00EFB492 /* Python.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Python.xcframework; sourceTree = "<group>"; };
+		60A04BC328B35ECB00DAA9E5 /* python-stdlib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "python-stdlib"; sourceTree = "<group>"; };
+		60A04BC528B35ED400DAA9E5 /* Python.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Python.xcframework; path = Support/Python.xcframework; sourceTree = "<group>"; };
 		60A421FC2AB4256300E46BC3 /* app_packages.iphonesimulator */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages.iphonesimulator; sourceTree = "<group>"; };
 		60A421FD2AB4256300E46BC3 /* app_packages.iphoneos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = app_packages.iphoneos; sourceTree = "<group>"; };
 		60C0057828F7DB9A008B9E84 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -61,9 +50,9 @@
 			files = (
 				600000000000000000000800 /* CoreGraphics.framework in Frameworks */,
 				600000000000000000000900 /* Foundation.framework in Frameworks */,
-				60813D372B02EED200EFB492 /* Python.xcframework in Frameworks */,
 				600000000000000000000A00 /* UIKit.framework in Frameworks */,
 				60C0057928F7DB9A008B9E84 /* WebKit.framework in Frameworks */,
+				60A04BC628B35ED400DAA9E5 /* Python.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				60A04BC228B35E9F00DAA9E5 /* Support */,
+				60A04BC528B35ED400DAA9E5 /* Python.xcframework */,
 				60796EEB19190F4100A9926B /* {{ cookiecutter.class_name }} */,
 				60796EE419190F4100A9926B /* Frameworks */,
 				60796EE319190F4100A9926B /* Products */,
@@ -127,7 +117,7 @@
 		60A04BC228B35E9F00DAA9E5 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				60813D352B02EBFC00EFB492 /* Python.xcframework */,
+				60A04BC328B35ECB00DAA9E5 /* python-stdlib */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -142,9 +132,8 @@
 				60796EDE19190F4100A9926B /* Sources */,
 				60796EDF19190F4100A9926B /* Frameworks */,
 				60796EE019190F4100A9926B /* Resources */,
-				609384A628B5B958005B2A5D /* Install target specific Python modules */,
+				609384A628B5B958005B2A5D /* Purge Python Binary Modules for Non-Target Platforms */,
 				609384A528B45C86005B2A5D /* Sign Python Binary Modules */,
-				6060E7A12AF8BF4400C04AE0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -162,7 +151,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Russell Keith-Magee";
 			};
 			buildConfigurationList = 60796EDD19190F4100A9926B /* Build configuration list for PBXProject "{{ cookiecutter.formal_name }}" */;
@@ -192,6 +181,9 @@
 				600000000000000000100200 /* Images.xcassets in Resources */,
 				600000000000000000100300 /* Launch Screen.storyboard in Resources */,
 				60A04BC728B35FD000DAA9E5 /* app in Resources */,
+				60A04BC428B35ECB00DAA9E5 /* python-stdlib in Resources */,
+				60A421FF2AB4256300E46BC3 /* app_packages.iphoneos in Resources */,
+				60A421FE2AB4256300E46BC3 /* app_packages.iphonesimulator in Resources */,
 				60754F822AA5926A0013A4FB /* dylib-Info-template.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,9 +208,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\ninstall_dylib () {\n    INSTALL_BASE=$1\n    FULL_EXT=$2\n\n    # The name of the extension file\n    EXT=$(basename \"$FULL_EXT\")\n    # The location of the extension file, relative to the bundle\n    RELATIVE_EXT=${FULL_EXT#$CODESIGNING_FOLDER_PATH/} \n    # The path to the extension file, relative to the install base\n    PYTHON_EXT=${RELATIVE_EXT/$INSTALL_BASE/}\n    # The full dotted name of the extension module, constructed from the file path.\n    FULL_MODULE_NAME=$(echo $PYTHON_EXT | cut -d \".\" -f 1 | tr \"/\" \".\"); \n    # A bundle identifier; not actually used, but required by Xcode framework packaging\n    FRAMEWORK_BUNDLE_ID=$(echo $PRODUCT_BUNDLE_IDENTIFIER.$FULL_MODULE_NAME | tr \"_\" \"-\")\n    # The name of the framework folder.\n    FRAMEWORK_FOLDER=\"Frameworks/$FULL_MODULE_NAME.framework\"\n\n    # If the framework folder doesn't exist, create it.\n    if [ ! -d \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\" ]; then\n        echo \"Creating framework for $RELATIVE_EXT\" \n        mkdir -p \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\"\n\n        cp \"$CODESIGNING_FOLDER_PATH/dylib-Info-template.plist\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\"\n        plutil -replace CFBundleExecutable -string \"$FULL_MODULE_NAME\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\"\n        plutil -replace CFBundleIdentifier -string \"$FRAMEWORK_BUNDLE_ID\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\"\n    fi\n    \n    echo \"Installing binary for $FRAMEWORK_FOLDER/$FULL_MODULE_NAME\" \n    mv \"$FULL_EXT\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/$FULL_MODULE_NAME\"\n    # Create a placeholder .fwork file where the .so was\n    echo \"$FRAMEWORK_FOLDER/$FULL_MODULE_NAME\" > ${FULL_EXT%.so}.fwork\n    # Create a back reference to the .so file location in the framework\n    echo \"${RELATIVE_EXT%.so}.fwork\" > \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/$FULL_MODULE_NAME.origin\"     \n}\n\necho \"Install standard library extension modules...\"\nfind \"$CODESIGNING_FOLDER_PATH/python/lib/python3.13/lib-dynload\" -name \"*.so\" | while read FULL_EXT; do\n    install_dylib python/lib/python3.13/lib-dynload/ \"$FULL_EXT\"\ndone\necho \"Install app package extension modules...\"\nfind \"$CODESIGNING_FOLDER_PATH/app_packages\" -name \"*.so\" | while read FULL_EXT; do\n    install_dylib app_packages/ \"$FULL_EXT\"\ndone\necho \"Install app extension modules...\"\nfind \"$CODESIGNING_FOLDER_PATH/app\" -name \"*.so\" | while read FULL_EXT; do\n    install_dylib app/ \"$FULL_EXT\"\ndone\n\n# Clean up dylib template \nrm -f \"$CODESIGNING_FOLDER_PATH/dylib-Info-template.plist\"\n\necho \"Signing frameworks as $EXPANDED_CODE_SIGN_IDENTITY_NAME ($EXPANDED_CODE_SIGN_IDENTITY)...\"\nfind \"$CODESIGNING_FOLDER_PATH/Frameworks\" -name \"*.framework\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" ${OTHER_CODE_SIGN_FLAGS:-} -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der \"{}\" \\; \n";
+			shellScript = "set -e\n\ninstall_dylib () {\n    INSTALL_BASE=$1\n    FULL_DYLIB=$2\n\n    # The name of the .dylib file\n    DYLIB=$(basename \"$FULL_DYLIB\")\n    # The name of the .dylib file, relative to the install base\n    RELATIVE_DYLIB=${FULL_DYLIB#$CODESIGNING_FOLDER_PATH/$INSTALL_BASE/}\n    # The full dotted name of the binary module, constructed from the file path.\n    FULL_MODULE_NAME=$(echo $RELATIVE_DYLIB | cut -d \".\" -f 1 | tr \"/\" \".\"); \n    # A bundle identifier; not actually used, but required by Xcode framework packaging\n    FRAMEWORK_BUNDLE_ID=$(echo $PRODUCT_BUNDLE_IDENTIFIER.$FULL_MODULE_NAME | tr \"_\" \"-\")\n    # The name of the framework folder.\n    FRAMEWORK_FOLDER=\"Frameworks/$FULL_MODULE_NAME.framework\"\n\n    # If the framework folder doesn't exist, create it.\n    if [ ! -d \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\" ]; then\n        echo \"Creating framework for $RELATIVE_DYLIB\" \n        mkdir -p \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\"\n\n        cp \"$CODESIGNING_FOLDER_PATH/dylib-Info-template.plist\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\"\n        plutil -replace CFBundleExecutable -string \"$DYLIB\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\"\n        plutil -replace CFBundleIdentifier -string \"$FRAMEWORK_BUNDLE_ID\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER/Info.plist\"\n    fi\n    \n    echo \"Installing binary for $RELATIVE_DYLIB\" \n    mv \"$FULL_DYLIB\" \"$CODESIGNING_FOLDER_PATH/$FRAMEWORK_FOLDER\"\n}\n\necho \"Install standard library dylibs...\"\nfind \"$CODESIGNING_FOLDER_PATH/python-stdlib/lib-dynload\" -name \"*.dylib\" | while read FULL_DYLIB; do\n    install_dylib python-stdlib/lib-dynload \"$FULL_DYLIB\"\ndone\necho \"Install app package dylibs...\"\nfind \"$CODESIGNING_FOLDER_PATH/app_packages\" -name \"*.dylib\" | while read FULL_DYLIB; do\n    install_dylib app_packages \"$FULL_DYLIB\"\ndone\necho \"Install app dylibs...\"\nfind \"$CODESIGNING_FOLDER_PATH/app\" -name \"*.dylib\" | while read FULL_DYLIB; do\n    install_dylib app \"$FULL_DYLIB\"\ndone\n\n# Clean up dylib template \nrm -f \"$CODESIGNING_FOLDER_PATH/dylib-Info-template.plist\"\n\necho \"Signing frameworks as $EXPANDED_CODE_SIGN_IDENTITY_NAME ($EXPANDED_CODE_SIGN_IDENTITY)...\"\nfind \"$CODESIGNING_FOLDER_PATH/Frameworks\" -name \"*.framework\" -exec /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" ${OTHER_CODE_SIGN_FLAGS:-} -o runtime --timestamp=none --preserve-metadata=identifier,entitlements,flags --generate-entitlement-der \"{}\" \\; \n";
 		};
-		609384A628B5B958005B2A5D /* Install target specific Python modules */ = {
+		609384A628B5B958005B2A5D /* Purge Python Binary Modules for Non-Target Platforms */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -228,14 +220,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Install target specific Python modules";
+			name = "Purge Python Binary Modules for Non-Target Platforms";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmkdir -p \"$CODESIGNING_FOLDER_PATH/python/lib\"\nif [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Installing Python modules for iOS Simulator\"\n    rsync -au --delete \"$PROJECT_DIR/Support/Python.xcframework/iphonesimulator/lib/\" \"$CODESIGNING_FOLDER_PATH/python/lib/\" \n    rsync -au --delete \"$PROJECT_DIR/{{ cookiecutter.class_name }}/app_packages.iphonesimulator/\" \"$CODESIGNING_FOLDER_PATH/app_packages\" \nelse\n    echo \"Installing Python modules for iOS Device\"\n    rsync -au --delete \"$PROJECT_DIR/Support/Python.xcframework/iphoneos/lib/\" \"$CODESIGNING_FOLDER_PATH/python/lib\" \n    rsync -au --delete \"$PROJECT_DIR/{{ cookiecutter.class_name }}/app_packages.iphoneos/\" \"$CODESIGNING_FOLDER_PATH/app_packages\" \nfi\n";
+			shellScript = "rm -rf \"$CODESIGNING_FOLDER_PATH/app_packages\"\nif [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Purging Python modules for iOS Device\"\n    rm -rf \"$CODESIGNING_FOLDER_PATH/app_packages.iphoneos\" \n    mv \"$CODESIGNING_FOLDER_PATH/app_packages.iphonesimulator\" \"$CODESIGNING_FOLDER_PATH/app_packages\"\n    find \"$CODESIGNING_FOLDER_PATH/python-stdlib\" -name \"*.*-iphoneos.dylib\" -exec rm -f \"{}\" \\;\nelse\n    echo \"Purging Python modules for iOS Simulator\"\n    rm -rf \"$CODESIGNING_FOLDER_PATH/app_packages.iphonesimulator\" \n    mv \"$CODESIGNING_FOLDER_PATH/app_packages.iphoneos\" \"$CODESIGNING_FOLDER_PATH/app_packages\"\n    find \"$CODESIGNING_FOLDER_PATH\" -name \"*.*-iphonesimulator.dylib\" -exec rm -f \"{}\" \\;   \nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -297,7 +289,6 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -313,7 +304,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -354,9 +344,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -365,7 +353,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -377,12 +364,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/Support\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
 				INFOPLIST_FILE = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -399,13 +383,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/Support\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
 				INFOPLIST_FILE = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
