@@ -242,9 +242,12 @@ int main(int argc, char *argv[]) {
                     if (systemExit_code == NULL) {
                         NSLog(@"Could not determine exit code");
                         ret = -10;
-                    }
-                    else {
+                    } else if (PyLong_Check(systemExit_code)) {
+                        // SystemExit with error code
                         ret = (int) PyLong_AsLong(systemExit_code);
+                    } else {
+                        // Convert exit code to a string. This is required by runpy._error
+                        ret = -11;
                     }
                 } else {
                     ret = -6;
