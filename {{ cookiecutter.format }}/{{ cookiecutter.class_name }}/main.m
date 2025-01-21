@@ -237,6 +237,7 @@ int main(int argc, char *argv[]) {
                     exit(-5);
                 }
 
+                traceback_str = NULL;
                 if (PyErr_GivenExceptionMatches(exc_value, PyExc_SystemExit)) {
                     systemExit_code = PyObject_GetAttrString(exc_value, "code");
                     if (systemExit_code == NULL) {
@@ -246,20 +247,22 @@ int main(int argc, char *argv[]) {
                         // SystemExit with error code
                         ret = (int) PyLong_AsLong(systemExit_code);
                     } else {
-                        // SystemExit with a string for an error code.
+                        // SystemExit with a string for an error code. Use the
+                        // string as the traceback, and use the documented
+                        // SystemExit return value of 1.
                         ret = 1;
+                        traceback_str = [NSString stringWithUTF8String:PyUnicode_AsUTF8(PyObject_Str(systemExit_code))];
                     }
                 } else {
                     // Non-SystemExit; likely an uncaught exception
-                    ret = -6;
-                }
-
-                if (ret != 0) {
                     NSLog(@"---------------------------------------------------------------------------\n");
                     NSLog(@"Application quit abnormally (Exit code %d)!", ret);
-
-                    // Display stack trace in the crash dialog.
+                    ret = -6;
                     traceback_str = format_traceback(exc_type, exc_value, exc_traceback);
+                }
+
+                if (traceback_str != NULL) {
+                    // Display stack trace in the crash dialog.
                     crash_dialog(traceback_str);
                 }
             } else {
