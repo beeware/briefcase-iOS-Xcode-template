@@ -241,15 +241,19 @@ int main(int argc, char *argv[]) {
                 if (PyErr_GivenExceptionMatches(exc_value, PyExc_SystemExit)) {
                     systemExit_code = PyObject_GetAttrString(exc_value, "code");
                     if (systemExit_code == NULL) {
-                        NSLog(@"Could not determine exit code");
+                        traceback_str = @"Could not determine exit code";
                         ret = -10;
+                    } else if (systemExit_code == Py_None) {
+                        // SystemExit with a code of None; documented as a
+                        // return code of 0.
+                        ret = 0;
                     } else if (PyLong_Check(systemExit_code)) {
                         // SystemExit with error code
                         ret = (int) PyLong_AsLong(systemExit_code);
                     } else {
-                        // SystemExit with a string for an error code. Use the
-                        // string as the traceback, and use the documented
-                        // SystemExit return value of 1.
+                        // Any other SystemExit value - convert to a string, and
+                        // use the string as the traceback, and use the
+                        // documented SystemExit return value of 1.
                         ret = 1;
                         traceback_str = [NSString stringWithUTF8String:PyUnicode_AsUTF8(PyObject_Str(systemExit_code))];
                     }
