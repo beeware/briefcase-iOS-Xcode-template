@@ -237,34 +237,37 @@ int main(int argc, char *argv[]) {
                     exit(-5);
                 }
 
+                traceback_str = NULL;
                 if (PyErr_GivenExceptionMatches(exc_value, PyExc_SystemExit)) {
                     systemExit_code = PyObject_GetAttrString(exc_value, "code");
                     if (systemExit_code == NULL) {
-                        NSLog(@"Could not determine exit code");
+                        traceback_str = @"Could not determine exit code";
                         ret = -10;
-                    }
-                    else {
+                    } else if (systemExit_code == Py_None) {
+                        // SystemExit with a code of None; documented as a
+                        // return code of 0.
+                        ret = 0;
+                    } else if (PyLong_Check(systemExit_code)) {
+                        // SystemExit with error code
                         ret = (int) PyLong_AsLong(systemExit_code);
+                    } else {
+                        // Any other SystemExit value - convert to a string, and
+                        // use the string as the traceback, and use the
+                        // documented SystemExit return value of 1.
+                        ret = 1;
+                        traceback_str = [NSString stringWithUTF8String:PyUnicode_AsUTF8(PyObject_Str(systemExit_code))];
                     }
                 } else {
+                    // Non-SystemExit; likely an uncaught exception
+                    NSLog(@"---------------------------------------------------------------------------\n");
+                    NSLog(@"Application quit abnormally (Exit code %d)!", ret);
                     ret = -6;
+                    traceback_str = format_traceback(exc_type, exc_value, exc_traceback);
                 }
 
-                if (ret != 0) {
-                    NSLog(@"Application quit abnormally (Exit code %d)!", ret);
-
-                    traceback_str = format_traceback(exc_type, exc_value, exc_traceback);
-
-                    // Restore the error state of the interpreter.
-                    PyErr_Restore(exc_type, exc_value, exc_traceback);
-
-                    // Print exception to stderr.
-                    // In case of SystemExit, this will call exit()
-                    PyErr_Print();
-
+                if (traceback_str != NULL) {
                     // Display stack trace in the crash dialog.
                     crash_dialog(traceback_str);
-                    exit(ret);
                 }
             } else {
                 // In a normal iOS application, the following line is what
