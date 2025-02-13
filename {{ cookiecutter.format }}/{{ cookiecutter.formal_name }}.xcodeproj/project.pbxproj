@@ -235,7 +235,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmkdir -p \"$CODESIGNING_FOLDER_PATH/python/lib\"\nif [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Installing Python modules for iOS Simulator\"\n    rsync -au --delete \"$PROJECT_DIR/Support/Python.xcframework/iphonesimulator/lib/\" \"$CODESIGNING_FOLDER_PATH/python/lib/\" \n    rsync -au --delete \"$PROJECT_DIR/{{ cookiecutter.class_name }}/app_packages.iphonesimulator/\" \"$CODESIGNING_FOLDER_PATH/app_packages\" \nelse\n    echo \"Installing Python modules for iOS Device\"\n    rsync -au --delete \"$PROJECT_DIR/Support/Python.xcframework/iphoneos/lib/\" \"$CODESIGNING_FOLDER_PATH/python/lib\" \n    rsync -au --delete \"$PROJECT_DIR/{{ cookiecutter.class_name }}/app_packages.iphoneos/\" \"$CODESIGNING_FOLDER_PATH/app_packages\" \nfi\n";
+			shellScript = "set -e\n\nmkdir -p \"$CODESIGNING_FOLDER_PATH/python/lib\"\nif [ \"$EFFECTIVE_PLATFORM_NAME\" = \"-iphonesimulator\" ]; then\n    echo \"Installing Python modules for iOS Simulator\"\n    rsync -au --delete \"$PROJECT_DIR/Support/Python.xcframework/ios-arm64_x86_64-simulator/lib/\" \"$CODESIGNING_FOLDER_PATH/python/lib/\" \n    rsync -au --delete \"$PROJECT_DIR/{{ cookiecutter.class_name }}/app_packages.iphonesimulator/\" \"$CODESIGNING_FOLDER_PATH/app_packages\" \nelse\n    echo \"Installing Python modules for iOS Device\"\n    rsync -au --delete \"$PROJECT_DIR/Support/Python.xcframework/ios-arm64/lib/\" \"$CODESIGNING_FOLDER_PATH/python/lib\" \n    rsync -au --delete \"$PROJECT_DIR/{{ cookiecutter.class_name }}/app_packages.iphoneos/\" \"$CODESIGNING_FOLDER_PATH/app_packages\" \nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
