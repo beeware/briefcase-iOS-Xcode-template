@@ -23,8 +23,10 @@ int main(int argc, char *argv[]) {
     NSString *path;
     NSString *traceback_str;
     wchar_t *wtmp_str;
+    wchar_t *app_packages_path_str;
     const char* app_module_str;
     const char* nslog_script;
+    PyObject *app_packages_path;
     PyObject *app_module;
     PyObject *module;
     PyObject *module_attr;
@@ -125,18 +127,6 @@ int main(int argc, char *argv[]) {
         }
         PyMem_RawFree(wtmp_str);
 
-        // Add the app_packages path
-        path = [NSString stringWithFormat:@"%@/app_packages", resourcePath, nil];
-        NSLog(@"- %@", path);
-        wtmp_str = Py_DecodeLocale([path UTF8String], NULL);
-        status = PyWideStringList_Append(&config.module_search_paths, wtmp_str);
-        if (PyStatus_Exception(status)) {
-            crash_dialog([NSString stringWithFormat:@"Unable to set app packages path: %s", status.err_msg, nil]);
-            PyConfig_Clear(&config);
-            Py_ExitStatusException(status);
-        }
-        PyMem_RawFree(wtmp_str);
-
         // Add the app path
         path = [NSString stringWithFormat:@"%@/app", resourcePath, nil];
         NSLog(@"- %@", path);
@@ -188,6 +178,48 @@ int main(int argc, char *argv[]) {
                     exit(ret);
                 }
             }
+
+
+            // Adding the app_packages as site directory.
+            //
+            // This adds app_packages to sys.path and executes any .pth
+            // files in that directory.
+            path = [NSString stringWithFormat:@"%@/app_packages", resourcePath, nil];
+            app_packages_path_str = Py_DecodeLocale([path UTF8String], NULL);
+
+            NSLog(@"Adding app_packages as site directory: %@", path);
+
+            module = PyImport_ImportModule("site");
+            if (module == NULL) {
+                crash_dialog(@"Could not import site module");
+                exit(-11);
+            }
+
+            module_attr = PyObject_GetAttrString(module, "addsitedir");
+            if (module_attr == NULL || !PyCallable_Check(module_attr)) {
+                crash_dialog(@"Could not access site.addsitedir");
+                exit(-12);
+            }
+
+            app_packages_path = PyUnicode_FromWideChar(app_packages_path_str, wcslen(app_packages_path_str));
+            if (app_packages_path == NULL) {
+                crash_dialog(@"Could not convert app_packages path to unicode");
+                exit(-13);
+            }
+            PyMem_RawFree(app_packages_path_str);
+
+            method_args = Py_BuildValue("(O)", app_packages_path);
+            if (method_args == NULL) {
+                crash_dialog(@"Could not create arguments for site.addsitedir");
+                exit(-14);
+            }
+
+            result = PyObject_CallObject(module_attr, method_args);
+            if (result == NULL) {
+                crash_dialog(@"Could not add app_packages directory using site.addsitedir");
+                exit(-15);
+            }
+
 
             // Start the app module.
             //
