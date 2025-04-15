@@ -314,7 +314,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
-				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.iphoneos_deployment_target }};
+				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.min_os_version }};
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -366,7 +366,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
-				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.iphoneos_deployment_target }};
+				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.min_os_version }};
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -384,7 +384,7 @@
 				GCC_PREFIX_HEADER = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
 				INFOPLIST_FILE = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.iphoneos_deployment_target }};
+				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.min_os_version }};
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -407,7 +407,7 @@
 				GCC_PREFIX_HEADER = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/Python.framework/Headers\"";
 				INFOPLIST_FILE = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.iphoneos_deployment_target }};
+				IPHONEOS_DEPLOYMENT_TARGET = {{ cookiecutter.min_os_version }};
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
