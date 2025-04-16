@@ -19,7 +19,7 @@
 		<string>iPhoneOS</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>{{ cookiecutter.iphoneos_deployment_target }}</string>
+	<string>{{ cookiecutter.min_os_version }}</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 </dict>
