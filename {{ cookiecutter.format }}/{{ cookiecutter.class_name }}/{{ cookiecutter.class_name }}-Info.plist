@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>{{ cookiecutter.build }}</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	{{ cookiecutter.uses_non_exempt_encryption|plist_value }}
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiresFullScreen</key>

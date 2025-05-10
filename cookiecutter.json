@@ -13,6 +13,7 @@
     "build": "1",
     "python_version": "3.X.0",
     "min_os_version": "13.0",
+    "uses_non_exempt_encryption": false,
     "_copy_without_render": [
         ".gitignore",
         "*.png"
