@@ -335,7 +335,13 @@ int main(int argc, char *argv[]) {
  */
 void crash_dialog(NSString *details) {
     NSLog(@"Application has crashed!");
-    NSLog(@"========================\n%@", details);
+    NSLog(@"========================");
+
+    NSArray *lines = [details componentsSeparatedByString:@"\n"];
+    for (NSString *line in lines) {
+        NSLog(@"%@", line);
+    }
+
     // TODO - acutally make this a dialog
     // NSString *full_message = [NSString stringWithFormat:@"An unexpected error occurred.\n%@", details];
     // // Create a stack trace dialog
