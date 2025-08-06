@@ -38,6 +38,10 @@ int main(int argc, char *argv[]) {
     PyObject *systemExit_code;
 
     @autoreleasepool {
+        // iOS doesn't export an LANG environment variable; that variable is
+        // needed to set the locale correctly on startup.
+        setenv("LANG", [[NSString stringWithFormat:@"%@.UTF-8", NSLocale.currentLocale.localeIdentifier] UTF8String], 1);
+
         NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
 
         // Generate an isolated Python configuration.
@@ -49,6 +53,8 @@ int main(int argc, char *argv[]) {
         // Enforce UTF-8 encoding for stderr, stdout, file-system encoding and locale.
         // See https://docs.python.org/3/library/os.html#python-utf-8-mode.
         preconfig.utf8_mode = 1;
+        // Ensure the locale is set (isolated interpreters won't by default)
+        preconfig.configure_locale = 1;
         // Don't buffer stdio. We want output to appears in the log immediately
         config.buffered_stdio = 0;
         // Don't write bytecode; we can't modify the app bundle
