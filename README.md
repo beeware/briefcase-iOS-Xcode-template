@@ -1,18 +1,16 @@
----
-title: Briefcase iOS Xcode Template
----
+# Briefcase iOS Xcode Template
 
 A [Cookiecutter](https://github.com/cookiecutter/cookiecutter/) template
 for building Python apps that will run under iOS.
 
-# Using this template
+## Using this template
 
 The easiest way to use this project is to not use it at all - at least,
 not directly. [Briefcase](https://github.com/beeware/briefcase/) is a
 tool that uses this template, rolling it out using data extracted from a
 `pyproject.toml` configuration file.
 
-However, if you *do* want use this template directly...
+However, if you *do* want to use this template directly...
 
 1.  Install
     [cookiecutter](https://github.com/cookiecutter/cookiecutter). This
@@ -68,7 +66,7 @@ structure that looks something like:
 You're now ready to open the XCode project file, build and run your
 project!
 
-# Next steps
+## Next steps
 
 Of course, running Python code isn't very interesting by itself - you'll
 be able to output to the console, and see that output in XCode, but if
