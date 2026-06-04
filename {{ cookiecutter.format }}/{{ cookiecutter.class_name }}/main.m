@@ -25,7 +25,6 @@ int main(int argc, char *argv[]) {
     wchar_t *wtmp_str;
     wchar_t *app_packages_path_str;
     const char* app_module_str;
-    const char* nslog_script;
     PyObject *app_packages_path;
     PyObject *app_module;
     PyObject *module;
@@ -162,30 +161,6 @@ int main(int argc, char *argv[]) {
         }
 
         @try {
-            // Set the name of the python NSLog bootstrap script
-            nslog_script = [
-                [[NSBundle mainBundle] pathForResource:@"app_packages/nslog"
-                                                ofType:@"py"] cStringUsingEncoding:NSUTF8StringEncoding];
-            if (nslog_script == NULL) {
-                NSLog(@"No Python NSLog handler found. stdout/stderr will not be captured.");
-                NSLog(@"To capture stdout/stderr, add 'std-nslog' to your app dependencies.");
-            } else {
-                NSLog(@"Installing Python NSLog handler...");
-                FILE* fd = fopen(nslog_script, "r");
-                if (fd == NULL) {
-                    crash_dialog(@"Unable to open nslog.py");
-                    exit(-1);
-                }
-
-                ret = PyRun_SimpleFileEx(fd, nslog_script, 1);
-                fclose(fd);
-                if (ret != 0) {
-                    crash_dialog(@"Unable to install Python NSLog handler");
-                    exit(ret);
-                }
-            }
-
-
             // Adding the app_packages as site directory.
             //
             // This adds app_packages to sys.path and executes any .pth
@@ -225,7 +200,6 @@ int main(int argc, char *argv[]) {
                 crash_dialog(@"Could not add app_packages directory using site.addsitedir");
                 exit(-15);
             }
-
 
             // Start the app module.
             //
