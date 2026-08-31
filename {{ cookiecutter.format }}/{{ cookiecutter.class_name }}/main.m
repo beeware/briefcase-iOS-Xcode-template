@@ -303,9 +303,14 @@ int main(int argc, char *argv[]) {
             ret = -7;
         }
         @finally {
-            Py_Finalize();
+            // Force a full GC pass while the interpreter is alive and a pool is
+            // in place, so Python drops any ObjC references and anything
+            // autoreleased lands in this pool.
+            PyGC_Collect();
         }
     }
+    // Autorelease pool is drained; any Python -dealloc has run against a live interpreter.
+    Py_Finalize();
 
     exit(ret);
     return ret;
