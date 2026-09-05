@@ -38,6 +38,7 @@ jobs:
       framework: ${{ matrix.framework }}
       target-platform: iOS
       target-format: Xcode
+      ios-simulator: "iPhone 17e::iOS 26.5"
     strategy:
       fail-fast: false
       matrix:
