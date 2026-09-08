@@ -9,11 +9,18 @@ app_packages_path = "{{ cookiecutter.class_name }}/app_packages"
 info_plist_path = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist"
 support_path = "Support"
 {{ {
-    "3.11": "support_revision = 10",
-    "3.12": "support_revision = 10",
-    "3.13": "support_revision = 15",
-    "3.14": "support_revision = 11",
-    "3.15": "support_revision = 0",
+    "3.11": 'support_revision = "10"',
+    "3.12": 'support_revision = "10"',
+    "3.13": 'support_revision = "15"',
+    "3.14": 'support_revision = "11"',
+    "3.15": 'support_revision = "0"',
+}.get(cookiecutter.python_version|py_tag, "") }}
+{{ {
+    "3.11": 'support_package_hash = "sha256:ff6295ebf94b582146f4ca326e7e2cf8347a740fa00eac199f2441acbcb6fea3"',
+    "3.12": 'support_package_hash = "sha256:18fb042d47b7ec441282eb96da0193e3093de7f02add35f5745d73491c6c0843"',
+    "3.13": 'support_package_hash = "sha256:80175765a31babe43b0910395cf86ba4e8412adf1902b069d55b74d523ecc5d1"',
+    "3.14": 'support_package_hash = "sha256:b591f3301bd22a4f423c49c746cac9e55558b909fd14d6eb8327ccc62234ab7b"',
+    "3.15": 'support_package_hash = "sha256:748b90b8d9f65de75b51b36896148e1b5ff320b1148dab8c59fd4ac883d2c2c1"',
 }.get(cookiecutter.python_version|py_tag, "") }}
 
 icon.20 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/icon-20.png"
