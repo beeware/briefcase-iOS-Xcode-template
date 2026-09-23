@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
         config.install_signal_handlers = 1;
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
-        {% if cookiecutter.python_version|minor_version >= 14 and not cookiecutter.console_app -%}
+        {% if cookiecutter.python_version|minor_version >= 14 -%}
         // Enable the use of the system logger
         config.use_system_logger = 1;
         {% endif -%}
