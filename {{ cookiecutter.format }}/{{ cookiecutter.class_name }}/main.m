@@ -63,6 +63,8 @@ int main(int argc, char *argv[]) {
         config.install_signal_handlers = 1;
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
+        // Enable the use of the system logger
+        config.use_system_logger = 1;
         // For debugging - enable verbose mode.
         // config.verbose = 1;
 
