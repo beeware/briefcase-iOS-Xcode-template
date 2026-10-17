@@ -1,0 +1,21 @@
+[project]
+name = "threading-probe"
+version = "0.0.1"
+description = "Regression test for Python threads while UIKit is idle"
+license = "BSD-3-Clause"
+license-files = ["../../LICENSE"]
+authors = [{name = "BeeWare"}]
+
+[tool.briefcase]
+project_name = "threading-probe"
+bundle = "org.beeware.tests"
+
+[tool.briefcase.app.threadingprobe]
+formal_name = "Threading Probe"
+description = "Regression test for the native launcher GIL"
+sources = ["src/threadingprobe"]
+test_sources = ["tests"]
+requires = ["rubicon-objc==0.5.7"]
+
+[tool.briefcase.app.threadingprobe.iOS]
+supported = true

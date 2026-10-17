@@ -299,7 +299,17 @@ int main(int argc, char *argv[]) {
                 // [1] http://beeware.org/rubicon
                 // [2] http://pyobjus.readthedocs.org/
                 // [3] https://pythonhosted.org/pyobjc/
-                UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
+                // UIKit owns the native event loop. Detach Python's thread
+                // state so background threads and native callbacks can acquire
+                // the GIL while the application is idle. Restore it before
+                // exception handling, garbage collection, or finalization.
+                PyThreadState *thread_state = PyEval_SaveThread();
+                @try {
+                    UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
+                }
+                @finally {
+                    PyEval_RestoreThread(thread_state);
+                }
             }
         }
         @catch (NSException *exception) {

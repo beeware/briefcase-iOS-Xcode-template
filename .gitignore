@@ -3,3 +3,8 @@
 .vscode
 .idea
 .rumdl_cache
+
+# Native launcher regression application
+/tests/threading/build/
+/tests/threading/logs/
+/tests/threading/.briefcase/
