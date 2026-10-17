@@ -167,6 +167,14 @@ int main(int argc, char *argv[]) {
         }
 
         @try {
+            // Advertise the launcher's GIL contract before importing app code.
+            // Rubicon can then let UIKit own the run loop without nesting.
+            // PySys_SetObject keeps its own reference; Py_True is not stolen.
+            if (PySys_SetObject("_ios_app_main_releases_gil", Py_True) < 0) {
+                crash_dialog(@"Could not advertise the UIKit GIL capability");
+                exit(-16);
+            }
+
             // Adding the app_packages as site directory.
             //
             // This adds app_packages to sys.path and executes any .pth
@@ -299,7 +307,17 @@ int main(int argc, char *argv[]) {
                 // [1] http://beeware.org/rubicon
                 // [2] http://pyobjus.readthedocs.org/
                 // [3] https://pythonhosted.org/pyobjc/
-                UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
+                // UIKit owns the native event loop. Detach Python's thread
+                // state so background threads and native callbacks can acquire
+                // the GIL while the application is idle. Restore it before
+                // exception handling, garbage collection, or finalization.
+                PyThreadState *thread_state = PyEval_SaveThread();
+                @try {
+                    UIApplicationMain(argc, argv, nil, @"PythonAppDelegate");
+                }
+                @finally {
+                    PyEval_RestoreThread(thread_state);
+                }
             }
         }
         @catch (NSException *exception) {
