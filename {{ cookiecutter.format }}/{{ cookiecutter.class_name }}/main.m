@@ -167,6 +167,14 @@ int main(int argc, char *argv[]) {
         }
 
         @try {
+            // Advertise the launcher's GIL contract before importing app code.
+            // Rubicon can then let UIKit own the run loop without nesting.
+            // PySys_SetObject keeps its own reference; Py_True is not stolen.
+            if (PySys_SetObject("_ios_app_main_releases_gil", Py_True) < 0) {
+                crash_dialog(@"Could not advertise the UIKit GIL capability");
+                exit(-16);
+            }
+
             // Adding the app_packages as site directory.
             //
             // This adds app_packages to sys.path and executes any .pth
