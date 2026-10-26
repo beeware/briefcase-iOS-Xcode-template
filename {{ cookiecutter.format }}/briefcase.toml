@@ -9,18 +9,18 @@ app_packages_path = "{{ cookiecutter.class_name }}/app_packages"
 info_plist_path = "{{ cookiecutter.class_name }}/{{ cookiecutter.class_name }}-Info.plist"
 support_path = "Support"
 {{ {
-    "3.11": 'support_revision = "12"',
-    "3.12": 'support_revision = "12"',
-    "3.13": 'support_revision = "17"',
-    "3.14": 'support_revision = "13"',
-    "3.15": 'support_revision = "1"',
+    "3.11": 'support_revision = "13"',
+    "3.12": 'support_revision = "13"',
+    "3.13": 'support_revision = "18"',
+    "3.14": 'support_revision = "14"',
+    "3.15": 'support_revision = "2"',
 }.get(cookiecutter.python_version|py_tag, "") }}
 {{ {
-    "3.11": 'support_package_hash = "sha256:d78e1b0fac855899e31112393c65e077781edf7d24e7cedb81984a3c91893f19"',
-    "3.12": 'support_package_hash = "sha256:1689bcac0c28322e0d0438eeec68d31ca37ca1813eaafb8e42a438703e85f775"',
-    "3.13": 'support_package_hash = "sha256:5d3617622369c545538cb2959197706d04d945d9fce9135aff4692d35d57c77d"',
-    "3.14": 'support_package_hash = "sha256:ce1c68affa1cbd9c5611a0f4a013e412f14a760cf22c6bb58cfb4d893073bd45"',
-    "3.15": 'support_package_hash = "sha256:49db815c8e0c724345fa3f349c5a90c7b9de3efea589a24e78e5bac3e6b2be1d"',
+    "3.11": 'support_package_hash = "sha256:e1f55eef2b8c4812f63ee02f8284c8db067ef1a26e75b9a470934376ac197ea0"',
+    "3.12": 'support_package_hash = "sha256:4eea2c76ad70f2df8c1767489315a16d72cd96ce5c086412ee2d154c3bd8e257"',
+    "3.13": 'support_package_hash = "sha256:d06acf2a9c7964a8689566353a0e707402eff822037de5e29ba0e16040f7047d"',
+    "3.14": 'support_package_hash = "sha256:703ff822529f46edcbcd8b88096b2544f6990f3109ad38b4b4b61bb489a7c1ee"',
+    "3.15": 'support_package_hash = "sha256:0f9fc7f61ceb8278a69fc7ec6089aad81789a96fa42f31cfe6d2f5f860d20a62"',
 }.get(cookiecutter.python_version|py_tag, "") }}
 
 icon.20 = "{{ cookiecutter.class_name }}/Images.xcassets/AppIcon.appiconset/icon-20.png"
