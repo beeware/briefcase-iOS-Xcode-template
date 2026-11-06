@@ -296,7 +296,7 @@ int main(int argc, char *argv[]) {
                 // Python does out of the box. You'll need to use
                 // a library like Rubicon-ObjC [1], Pyobjus [2] or
                 // PyObjC [3] if you want to run an *actual* iOS app.
-                // [1] http://beeware.org/rubicon
+                // [1] http://rubicon-objc.beeware.org/
                 // [2] http://pyobjus.readthedocs.org/
                 // [3] https://pythonhosted.org/pyobjc/
                 //
