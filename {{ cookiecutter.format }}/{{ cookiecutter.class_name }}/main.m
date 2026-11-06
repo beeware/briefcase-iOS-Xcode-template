@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
     PyObject *exc_value;
     PyObject *exc_traceback;
     PyObject *systemExit_code;
+    const char *console_output_env;
+    BOOL console_output;
 
     @autoreleasepool {
         // iOS doesn't export an LANG environment variable; that variable is
@@ -42,6 +44,17 @@ int main(int argc, char *argv[]) {
         setenv("LANG", [[NSString stringWithFormat:@"%@.UTF-8", NSLocale.currentLocale.localeIdentifier] UTF8String], 1);
 
         NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+
+        // By default, Python's stdout and stderr are written to the Apple
+        // system log. If BRIEFCASE_CONSOLE_OUTPUT=1 is set in the environment
+        // (e.g., by Briefcase when it launches the app on a physical device
+        // and streams the process console), write them to the process's
+        // real stdout and stderr instead.
+        console_output_env = getenv("BRIEFCASE_CONSOLE_OUTPUT");
+        console_output = console_output_env != NULL && strcmp(console_output_env, "1") == 0;
+        if (console_output) {
+            NSLog(@"Python stdout and stderr will be written to the console.");
+        }
 
         // Generate an isolated Python configuration.
         NSLog(@"Configuring isolated Python...");
@@ -64,8 +77,9 @@ int main(int argc, char *argv[]) {
         // Isolated apps need to set the full PYTHONPATH manually.
         config.module_search_paths_set = 1;
         {% if cookiecutter.python_version|minor_version >= 14 -%}
-        // Enable the use of the system logger
-        config.use_system_logger = 1;
+        // Enable the use of the system logger, unless console output has
+        // been requested.
+        config.use_system_logger = !console_output;
         {% endif -%}
         // For debugging - enable verbose mode.
         // config.verbose = 1;
@@ -166,6 +180,24 @@ int main(int argc, char *argv[]) {
             Py_ExitStatusException(status);
         }
 
+        {% if cookiecutter.python_version|minor_version < 14 -%}
+        // Python 3.13 and earlier always redirect stdout and stderr to the
+        // system log on iOS. If console output has been requested, restore
+        // the original streams, which write to file descriptors 1 and 2.
+        if (console_output) {
+            if (PyRun_SimpleString(
+                "import sys\n"
+                "if sys.__stdout__ is not None:\n"
+                "    sys.stdout = sys.__stdout__\n"
+                "if sys.__stderr__ is not None:\n"
+                "    sys.stderr = sys.__stderr__\n"
+            ) != 0) {
+                crash_dialog(@"Could not redirect stdout and stderr to the console");
+                exit(-16);
+            }
+        }
+
+        {% endif -%}
         @try {
             // Adding the app_packages as site directory.
             //
